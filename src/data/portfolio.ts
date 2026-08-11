@@ -1,0 +1,147 @@
+import nayattu from "@/assets/nayattu.jpg";
+import thallumaala from "@/assets/thallumaala.jpg";
+import tagaru from "@/assets/tagaru.jpg";
+import salaga from "@/assets/salaga.jpg";
+import popcornMonkeyTigerImg from "@/assets/popcorn-monkey-tiger.jpg";
+import mysoreDiariesImg from "@/assets/mysore-diaries.jpg";
+import aeDilHaiMushkil from "@/assets/ae-dil-hai-mushkil.jpg";
+import vikramVedha from "@/assets/vikram-vedha.jpg";
+
+
+/**
+ * PHASE 5 — DATA ARCHITECTURE
+ * -----------------------
+ * Reusable data structures designed to be easily replaced
+ * by the client's real CMS or database data.
+ * No fabricated data is used. Placeholders are clear.
+ */
+
+// --- SOCIAL ---
+export const social = {
+  instagram: "https://www.instagram.com/sujithsreedhar?igsh=MXY4azE2NXZnbWNsYg%3D%3D&utm_source=qr",
+  studio_instagram: "https://www.instagram.com/2bqstudios?igsh=YjVoaWpuNHk3MTNh",
+  youtube: "https://www.youtube.com/shorts/qI5OJRYC-Qc",
+  studio_youtube: "https://www.youtube.com/@2barqstudios930",
+  spotify: "https://open.spotify.com/playlist/4G9wC9KC30GurP2Ndn9jyS?si=1sPz8-lNQT2Es58lPSBUAw&utm_source=copy-link",
+  email: "hello@example.com", // Placeholder
+};
+
+// --- BIO ---
+export type Bio = {
+  shortBio: string;
+  fullBio: string;
+  portrait: string;
+  philosophy: string;
+};
+
+export const bio: Bio = {
+  shortBio: "Sujith Sreedhar is a Music Engineer specializing in Mixing and Mastering.",
+  fullBio: "[Placeholder: Full biography to be supplied by client. Do not invent history.]",
+  portrait: "",
+  philosophy: "[Placeholder: Sound philosophy to be supplied by client.]",
+};
+
+// --- PROJECT ---
+export type Project = {
+  slug: string;
+  title: string;
+  year: number;
+  role: string;
+  artwork: string;
+  description?: string;
+  audioUrl?: string;
+  videoUrl?: string;
+  externalUrl?: string;
+};
+
+export const selectedWork: Project[] = [
+  {
+    slug: "ae-dil-hai-mushkil",
+    title: "Ae Dil Hai Mushkil",
+    year: 2016,
+    role: "Mixing / Mastering",
+    artwork: aeDilHaiMushkil,
+    externalUrl: "https://www.imdb.com/title/tt4902146/",
+  },
+  {
+    slug: "vikram-vedha",
+    title: "Vikram Vedha",
+    year: 2017,
+    role: "Mixing / Mastering",
+    artwork: vikramVedha,
+    externalUrl: "https://www.imdb.com/title/tt6148156/",
+  },
+  {
+    slug: "nayattu",
+    title: "Nayattu",
+    year: 2021,
+    role: "Mixing / Mastering",
+    artwork: nayattu,
+    externalUrl: "https://www.imdb.com/title/tt11604676/",
+  },
+  {
+    slug: "thallumaala",
+    title: "Thallumaala",
+    year: 2022,
+    role: "Mixing / Mastering",
+    artwork: thallumaala,
+    externalUrl: "https://www.imdb.com/title/tt11075264/",
+  },
+  {
+    slug: "tagaru",
+    title: "Tagaru",
+    year: 2018,
+    role: "Mixing / Mastering",
+    artwork: tagaru,
+    externalUrl: "https://www.imdb.com/title/tt7938336/",
+  },
+  {
+    slug: "salaga",
+    title: "Salaga",
+    year: 2021,
+    role: "Mixing / Mastering",
+    artwork: salaga,
+  },
+  {
+    slug: "popcorn-monkey-tiger",
+    title: "Popcorn Monkey Tiger",
+    year: 2019,
+    role: "Mixing / Mastering",
+    artwork: popcornMonkeyTigerImg,
+  },
+  {
+    slug: "mysore-diaries",
+    title: "Mysore Diaries",
+    year: 2022,
+    role: "Mixing / Mastering",
+    artwork: mysoreDiariesImg,
+  },
+];
+
+export function getProject(slug: string) {
+  return selectedWork.find((p) => p.slug === slug);
+}
+
+// --- FILMOGRAPHY ---
+export type FilmCredit = {
+  title: string;
+  year: number;
+  language: string;
+  role: string;
+  type: string;
+  artwork?: string;
+};
+
+/** Small representative sample. The full 600+ archive connects here later. */
+export const filmography: FilmCredit[] = [
+  { title: "Ae Dil Hai Mushkil", year: 2016, language: "Hindi", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Vikram Vedha", year: 2017, language: "Tamil", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Thallumaala", year: 2022, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Mysore Diaries", year: 2022, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Nayattu", year: 2021, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Salaga", year: 2021, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Kotigobba 3", year: 2021, language: "Kannada", role: "Mixing", type: "Feature Film" },
+  { title: "Popcorn Monkey Tiger", year: 2019, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
+  { title: "Kavaludaari", year: 2019, language: "Kannada", role: "Mastering", type: "Feature Film" },
+  { title: "Tagaru", year: 2018, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
+];
