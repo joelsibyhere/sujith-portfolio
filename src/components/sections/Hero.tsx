@@ -6,15 +6,15 @@ export function Hero() {
     <section className="relative flex min-h-dvh w-full items-center justify-center overflow-hidden bg-background">
       {/* Edge-to-edge Cinematic Background */}
       <div className="absolute inset-0 z-0">
-        <div className="grain absolute inset-0 z-10 opacity-40 mix-blend-overlay" />
+        <div className="grain absolute inset-0 z-10 opacity-30 mix-blend-overlay" />
         <img
           src={heroStudio}
           alt="Cinematic studio environment"
           fetchPriority="high"
-          className="h-full w-full object-cover opacity-30 object-center grayscale-[30%] contrast-125 slow-zoom"
+          className="h-full w-full object-cover opacity-60 object-center contrast-110 slow-zoom"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 to-transparent z-10" />
       </div>
 
       {/* Massive Typography Centered */}
