@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ConnectRouteImport } from './routes/connect'
 import { Route as FilmographyRouteImport } from './routes/filmography'
+import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,6 +27,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConnectRoute = ConnectRouteImport.update({
   id: '/connect',
   path: '/connect',
@@ -35,6 +42,11 @@ const FilmographyRoute = FilmographyRouteImport.update({
   path: '/filmography',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSplatRoute = AdminSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
 const WorkSlugRoute = WorkSlugRouteImport.update({
   id: '/work/$slug',
   path: '/work/$slug',
@@ -44,36 +56,65 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
   '/filmography': typeof FilmographyRoute
+  '/admin/$': typeof AdminSplatRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
   '/filmography': typeof FilmographyRoute
+  '/admin/$': typeof AdminSplatRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/connect': typeof ConnectRoute
   '/filmography': typeof FilmographyRoute
+  '/admin/$': typeof AdminSplatRoute
   '/work/$slug': typeof WorkSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/connect' | '/filmography' | '/work/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/connect'
+    | '/filmography'
+    | '/admin/$'
+    | '/work/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/connect' | '/filmography' | '/work/$slug'
-  id: '__root__' | '/' | '/about' | '/connect' | '/filmography' | '/work/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/connect'
+    | '/filmography'
+    | '/admin/$'
+    | '/work/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/connect'
+    | '/filmography'
+    | '/admin/$'
+    | '/work/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ConnectRoute: typeof ConnectRoute
   FilmographyRoute: typeof FilmographyRoute
   WorkSlugRoute: typeof WorkSlugRoute
@@ -95,6 +136,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/connect': {
       id: '/connect'
       path: '/connect'
@@ -109,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FilmographyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/$': {
+      id: '/admin/$'
+      path: '/$'
+      fullPath: '/admin/$'
+      preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/work/$slug': {
       id: '/work/$slug'
       path: '/work/$slug'
@@ -119,9 +174,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminSplatRoute: typeof AdminSplatRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminSplatRoute: AdminSplatRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   ConnectRoute: ConnectRoute,
   FilmographyRoute: FilmographyRoute,
   WorkSlugRoute: WorkSlugRoute,

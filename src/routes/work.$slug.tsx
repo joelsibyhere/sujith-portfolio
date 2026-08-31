@@ -2,13 +2,57 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { client, urlFor } from "@/sanity/client";
 import { getProject, selectedWork } from "@/data/portfolio";
 
 export const Route = createFileRoute("/work/$slug")({
-  loader: ({ params }) => {
-    const project = getProject(params.slug);
-    if (!project) throw notFound();
-    return { project };
+  loader: async ({ params }) => {
+    // 1. Try to fetch from live Sanity database
+    const query = `*[_type == "project" && slug.current == $slug][0]`;
+    let project = await client.fetch(query, { slug: params.slug });
+    
+    // 2. If it's not in Sanity, check the dummy data (for showcasing)
+    if (!project) {
+      const dummyProject = getProject(params.slug);
+      if (!dummyProject) throw notFound();
+      
+      // Format dummy project to match Sanity structure
+      project = {
+        ...dummyProject,
+        slug: { current: dummyProject.slug },
+        artwork: dummyProject.artwork, // keep it as is, we won't pass it through urlFor
+        isDummy: true
+      };
+    }
+
+    // Fetch related projects for the footer carousel
+    const relatedQuery = `*[_type == "project" && slug.current != $slug] | order(year desc) [0...8]`;
+    const relatedWork = await client.fetch(relatedQuery, { slug: params.slug });
+
+    // Merge dummy related work just like we did in useMovies
+    const dummyRelated = selectedWork
+      .filter(p => p.slug !== params.slug)
+      .map(p => ({
+        ...p,
+        slug: p.slug,
+        artwork: p.artwork,
+        isDummy: true
+      }));
+
+    const mappedRelated = relatedWork.map((p: any) => ({
+      ...p,
+      slug: p.slug.current,
+      artwork: p.artwork ? urlFor(p.artwork).width(600).height(800).fit("crop").url() : "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop",
+    }));
+
+    return { 
+      project: {
+        ...project,
+        slug: project.slug.current,
+        artwork: project.isDummy ? project.artwork : (project.artwork ? urlFor(project.artwork).url() : "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop"),
+      },
+      relatedWork: [...mappedRelated, ...dummyRelated]
+    };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -31,11 +75,11 @@ export const Route = createFileRoute("/work/$slug")({
 });
 
 function ProjectDetail() {
-  const { project } = Route.useLoaderData();
+  const { project, relatedWork } = Route.useLoaderData();
   const [search, setSearch] = useState("");
 
-  const filteredWork = selectedWork.filter(
-    p => p.slug !== project.slug && p.title.toLowerCase().includes(search.toLowerCase())
+  const filteredWork = relatedWork.filter(
+    (p: any) => p.title.toLowerCase().includes(search.toLowerCase())
   );
   return (
     <article className="pt-32 md:pt-40 min-h-dvh flex flex-col">

@@ -35,10 +35,10 @@ export type Bio = {
 };
 
 export const bio: Bio = {
-  shortBio: "Sujith Sreedhar is a Music Engineer specializing in Mixing and Mastering.",
-  fullBio: "[Placeholder: Full biography to be supplied by client. Do not invent history.]",
+  shortBio: "Sujith Sreedhar is a highly sought-after Music Engineer specializing in Mixing and Mastering.",
+  fullBio: "With a career spanning over 600 feature films across multiple languages, Sujith Sreedhar has established himself as a defining force in modern cinematic sound design. From the high-octane energy of Vikram Vedha and Thallumaala to the nuanced emotional depth of Ae Dil Hai Mushkil and Nayattu, his sonic signature is characterized by pristine clarity, immersive depth, and massive cinematic scale. Operating at the intersection of technical precision and artistic intuition, Sujith approaches every project not just as an audio engineer, but as a storyteller.",
   portrait: "",
-  philosophy: "[Placeholder: Sound philosophy to be supplied by client.]",
+  philosophy: "Sound is the invisible architecture of emotion. Every frame has a pulse; my role is to find that heartbeat and amplify it, transforming raw audio into an unforgettable cinematic experience.",
 };
 
 // --- PROJECT ---

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Sujith Sreedhar Web Application</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        .invoice-box {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border-top: 8px solid #050505;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 42px;
+            margin: 0 0 10px 0;
+            letter-spacing: -1px;
+        }
+        .invoice-details {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .invoice-details strong {
+            color: #0f172a;
+        }
+        .bill-to {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .bill-to h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #64748b;
+            margin: 0 0 10px 0;
+        }
+        .bill-to p {
+            margin: 4px 0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        td {
+            font-size: 14px;
+            vertical-align: top;
+        }
+        td h4 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+            color: #0f172a;
+        }
+        td p {
+            margin: 0;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .amount {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .strike {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .final-price {
+            font-weight: 700;
+            color: #050505;
+        }
+        .summary {
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 8px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .summary-row.total {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #cbd5e1;
+            font-size: 20px;
+            font-weight: 700;
+            color: #050505;
+        }
+        .domain-section {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        .domain-section h4 {
+            margin: 0 0 10px 0;
+            color: #b45309;
+        }
+        .domain-section p {
+            margin: 0 0 16px 0;
+            font-size: 14px;
+            color: #92400e;
+        }
+        .checkbox-item {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #78350f;
+        }
+        .bonuses {
+            margin-bottom: 40px;
+        }
+        .bonuses h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #64748b;
+            margin: 0 0 12px 0;
+        }
+        .bonuses ul {
+            padding-left: 20px;
+            margin: 0;
+            font-size: 14px;
+            color: #475569;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .footer h4 {
+            color: #0f172a;
+            margin: 0 0 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invoice-box">
+        <div class="header">
+            <div>
+                <h1>INVOICE</h1>
+                <p style="margin:0; color:#64748b; font-size:14px;">Premium Engineering Services</p>
+            </div>
+            <div class="invoice-details">
+                <p><strong>INVOICE #</strong><br>INV-2026-081</p>
+                <p><strong>DATE</strong><br>August 16, 2026</p>
+            </div>
+        </div>
+
+        <div class="bill-to">
+            <h3>Bill To</h3>
+            <p>Sujith Sreedhar</p>
+            <p style="color:#64748b; font-weight:400;">2 Bar Q Studios</p>
+            <p style="color:#64748b; font-weight:400;">Project: Interactive Web Application & Filmography Archive</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th class="amount">Standard</th>
+                    <th class="amount">Final Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <h4>01. Cinematic Front-End Architecture (React & Vite)</h4>
+                        <p>Custom React.js engineering with 3D mouse parallax tracking, advanced CSS styling, scroll-triggered animations, and a fully responsive layout. (Home, About, Connect)</p>
+                    </td>
+                    <td class="amount strike">₹11,999</td>
+                    <td class="amount final-price">₹6,999</td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>02. Custom 'Filmography' Search Engine (Sanity CMS Backend)</h4>
+                        <p>Development of a high-speed database query system capable of instantly filtering 600+ movies by title, year, language, or role without page reloads. Includes pagination.</p>
+                    </td>
+                    <td class="amount strike">₹6,999</td>
+                    <td class="amount final-price">₹4,999</td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>03. Dynamic Data Integration</h4>
+                        <p>Data architecture and processing to integrate 600+ project credits. Engineering a dynamic routing system that generates a unique web page for every single film click.</p>
+                    </td>
+                    <td class="amount strike">₹5,999</td>
+                    <td class="amount final-price">₹2,999</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            <div class="summary-row">
+                <span>Standard Engineering Value:</span>
+                <span>₹24,997.00</span>
+            </div>
+            <div class="summary-row" style="color: #16a34a;">
+                <span>Special Industry Discount:</span>
+                <span>- ₹10,000.00</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Engineering Fee:</span>
+                <span>₹14,997.00</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px;"></div>
+
+        <div class="domain-section">
+            <h4>Domain & Official Email (GoDaddy)</h4>
+            <p>To secure the official <strong>sujithsreedhar.com</strong> domain name and set up your professional business email address, please select the duration. This covers official GoDaddy registration fees:</p>
+            <div class="checkbox-item">[ ] 1-Year Registration: ₹1,976.00</div>
+            <div class="checkbox-item">[ ] 2-Year Registration: ₹4,184.00</div>
+            <div class="checkbox-item">[ ] 3-Year Registration: ₹6,040.00</div>
+        </div>
+
+        <div class="bonuses">
+            <h4>Included Bonuses (₹0.00)</h4>
+            <ul>
+                <li><strong>Lifetime Premium Hosting (Netlify Edge):</strong> Configured to deploy on global Edge networks (Netlify), eliminating standard monthly website hosting fees forever while guaranteeing lightning-fast load times globally.</li>
+                <li><strong>Image Optimization & Delivery:</strong> Automated build tools to compress and serve studio images efficiently without quality loss.</li>
+            </ul>
+        </div>
+
+        <div class="bonuses">
+            <h4>Ongoing Backend Support & Maintenance</h4>
+            <ul>
+                <li><strong>Database Management (Sanity Studio):</strong> A custom, easy-to-use Sanity CMS admin panel allowing seamless processing and pushing of future movie additions to the platform's database without breaking the UI.</li>
+                <li><strong>Server & Infrastructure Monitoring:</strong> Continuous monitoring of Netlify deployment servers, GoDaddy DNS routing, and automatic SSL certificate renewals.</li>
+                <li><strong>Security & Uptime:</strong> Maintaining 99.9% uptime with static-site and serverless architecture, completely eliminating vulnerability to traditional PHP/WordPress backend hacks.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <h4>Payment Details</h4>
+            <p>Please remit payment via Google Pay, UPI, or direct Bank Transfer. Upon agreement, I will provide the UPI ID / Account details.</p>
+            <p style="margin-top: 20px; font-style: italic;">Thank you for your business. It is a pleasure to build the digital home for 2 Bar Q Studios.</p>
+        </div>
+    </div>
+
+</body>
+</html>
