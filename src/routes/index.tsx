@@ -5,7 +5,7 @@ import { SelectedWork } from "@/components/sections/SelectedWork";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Play, X } from "lucide-react";
-import drumsReal from "@/assets/studio-drums-real.jpg";
+import drumsReal from "@/assets/sujith-drums.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({

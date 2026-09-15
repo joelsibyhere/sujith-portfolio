@@ -143,7 +143,7 @@ function RootComponent() {
         <main 
           id="main" 
           key={location.pathname}
-          className="animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out-expo fill-mode-both"
+          className="cinematic-enter"
         >
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />

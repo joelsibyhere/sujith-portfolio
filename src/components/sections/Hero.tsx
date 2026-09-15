@@ -1,50 +1,27 @@
 import { Link } from "@tanstack/react-router";
-import { useState, useRef, MouseEvent } from "react";
-import heroStudio from "@/assets/studio-console-real.jpg";
+import heroStudio from "@/assets/sujith-hero.jpg";
 
 export function Hero() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLElement>(null);
-
-  const handleMouseMove = (e: MouseEvent) => {
-    if (!containerRef.current) return;
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    
-    // Calculate mouse position as a percentage (-0.5 to 0.5)
-    const x = (clientX / innerWidth) - 0.5;
-    const y = (clientY / innerHeight) - 0.5;
-    
-    setMousePos({ x, y });
-  };
-
   return (
     <section 
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
       className="relative flex min-h-dvh w-full items-center overflow-hidden bg-[#050505] pt-24"
     >
       {/* Edge-to-edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         
-        {/* Parallax Image */}
-        <div 
-          className="absolute inset-[-5%] h-[110%] w-[110%] transition-transform duration-[100ms] ease-out"
-          style={{
-            transform: `translate(${mousePos.x * -30}px, ${mousePos.y * -30}px)`,
-          }}
-        >
+        {/* Hero Image */}
+        <div className="absolute inset-0 h-full w-full">
           <img
             src={heroStudio}
             alt="Cinematic studio console"
             fetchPriority="high"
-            className="h-full w-full object-cover opacity-50 object-center contrast-125 slow-zoom"
+            className="h-full w-full object-cover opacity-90 object-center contrast-125 slow-zoom"
           />
         </div>
 
-        {/* Heavy left-side gradient to ensure text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50 z-10" />
+        {/* Lighter gradient to ensure text readability without hiding the image */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/50 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10" />
       </div>
 
       {/* Left-Aligned Editorial Content */}

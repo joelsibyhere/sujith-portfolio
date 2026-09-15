@@ -335,6 +335,22 @@ html {
     display: none;
   }
 }
+
+@keyframes page-blur-fade {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@utility cinematic-enter {
+  animation: page-blur-fade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @utility slow-zoom {
   animation: slow-zoom 14s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
