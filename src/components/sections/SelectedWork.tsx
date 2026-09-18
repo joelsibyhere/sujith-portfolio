@@ -1,76 +1,107 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Disc3 } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Disc3 } from "lucide-react";
+import { useRef } from "react";
 import { Reveal } from "@/components/Reveal";
 import { useMovies } from "@/sanity/useMovies";
 import { selectFeaturedMovies } from "@/lib/filmography";
 
 export function SelectedWork() {
   const { data: movies } = useMovies();
-  const featured = selectFeaturedMovies(movies).slice(0, 6);
+  // Grab enough movies to make the carousel scroll nicely
+  const featured = selectFeaturedMovies(movies).slice(0, 10);
+  
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    scrollContainerRef.current?.scrollBy({ left: -340, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollContainerRef.current?.scrollBy({ left: 340, behavior: "smooth" });
+  };
 
   return (
-    <section id="work" className="border-t border-border bg-background py-20 md:py-32">
-      <div className="site-container">
+    <section id="work" className="py-24 md:py-32 relative bg-background text-foreground border-t border-border overflow-hidden">
+      <div className="site-container pl-6 md:pl-12 lg:pl-20 pr-0">
         
         {/* Header */}
-        <Reveal className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border pb-8">
-          <div>
-            <p className="eyebrow mb-4">Film & music</p>
-            <h2 className="text-[clamp(2.5rem,5vw,4rem)] leading-[1] font-normal tracking-[-0.04em]">
-              Selected works
-            </h2>
+        <Reveal className="mb-12 flex flex-col md:mb-16 md:flex-row md:items-end md:justify-between pr-6 md:pr-12 lg:pr-20">
+          <div className="mb-6 md:mb-0">
+            <p className="text-4xl md:text-6xl font-display font-medium tracking-tight">Selected Films</p>
           </div>
-          <Link to="/filmography" className="text-link group flex items-center gap-2 pb-2">
-            Explore full archive <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
-          </Link>
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <Link to="/filmography" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 pb-2 text-sm uppercase tracking-widest font-medium">
+              Explore full archive <ArrowRight size={16} />
+            </Link>
+          </div>
         </Reveal>
 
-        {/* Minimalist Flex List */}
+        {/* Netflix-Style Horizontal Carousel with Apple-Style Floating Arrows */}
         <Reveal delay={100} className="w-full">
-          <div className="flex flex-col">
-            {featured.map((movie) => (
-              <Link
-                key={movie._id}
-                to="/work/$slug"
-                params={{ slug: movie.slug.current }}
-                className="group flex items-center gap-6 md:gap-10 border-b border-border py-6 md:py-8 transition-colors hover:bg-muted/20"
-                aria-label={`View ${movie.title}`}
-              >
-                {/* Small, Natural-Aspect Image */}
-                <div className="w-20 md:w-28 shrink-0 overflow-hidden rounded-md bg-muted shadow-sm ring-1 ring-black/5 transition-transform duration-500 group-hover:scale-105 group-hover:shadow-md aspect-[3/4]">
-                  {movie.imageUrl ? (
-                    <img
-                      src={movie.imageUrl}
-                      alt={movie.title}
-                      loading="lazy"
-                      className="h-full w-full object-cover saturate-[0.8] transition-all duration-500 group-hover:saturate-100"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center">
-                      <Disc3 size={24} className="text-muted-foreground/30" />
-                    </div>
-                  )}
-                </div>
-                
-                {/* Typography */}
-                <div className="flex flex-col justify-center min-w-0">
-                  <h3 className="truncate text-2xl md:text-4xl font-normal tracking-tight text-foreground transition-colors group-hover:text-primary">
-                    {movie.title}
-                  </h3>
-                  <div className="mt-2 md:mt-3 flex flex-wrap items-center gap-3 text-xs md:text-sm text-muted-foreground">
-                    <span className="uppercase tracking-widest">{movie.role}</span>
-                    <span className="opacity-30 hidden sm:block">—</span>
-                    <span className="tabular-nums">{movie.year}</span>
-                    {movie.language && (
-                      <>
-                        <span className="opacity-30">—</span>
-                        <span>{movie.language}</span>
-                      </>
+          <div className="relative group/carousel">
+            
+            {/* Apple-Style Floating Left Arrow */}
+            <button 
+              onClick={scrollLeft}
+              className="hidden md:flex absolute left-4 top-[45%] -translate-y-1/2 z-20 items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] text-black opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105"
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft size={28} strokeWidth={2.5} />
+            </button>
+
+            {/* Hide scrollbar natively but allow touch scrolling */}
+            <div 
+              ref={scrollContainerRef}
+              className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-12 pr-6 md:pr-12 lg:pr-20"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {featured.map((movie) => (
+                <Link
+                  key={movie._id}
+                  to="/work/$slug"
+                  params={{ slug: movie.slug.current }}
+                  className="group flex flex-col gap-5 shrink-0 snap-start"
+                  style={{ width: "clamp(220px, 25vw, 320px)" }}
+                  aria-label={`View ${movie.title}`}
+                >
+                  {/* Large Portrait Poster - Editorial Style */}
+                  <div className="w-full aspect-[2/3] overflow-hidden bg-[#f0f0f0]">
+                    {movie.imageUrl ? (
+                      <img
+                        src={movie.imageUrl}
+                        alt={movie.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-all duration-700 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center">
+                        <Disc3 size={40} className="text-muted-foreground/20" />
+                      </div>
                     )}
                   </div>
-                </div>
-              </Link>
-            ))}
+                  
+                  {/* Metadata styled like streaming UI */}
+                  <div className="flex flex-col gap-1 px-1">
+                    <h3 className="text-sm md:text-base font-bold tracking-[0.1em] text-foreground uppercase truncate transition-colors group-hover:text-primary">
+                      {movie.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground font-medium opacity-80 uppercase tracking-widest">
+                      {movie.year}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Apple-Style Floating Right Arrow */}
+            <button 
+              onClick={scrollRight}
+              className="hidden md:flex absolute right-12 top-[45%] -translate-y-1/2 z-20 items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] text-black opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105"
+              aria-label="Scroll Right"
+            >
+              <ChevronRight size={28} strokeWidth={2.5} />
+            </button>
           </div>
         </Reveal>
 

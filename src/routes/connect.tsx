@@ -75,8 +75,8 @@ function ConnectPage() {
         <div className="lg:w-1/2 lg:pt-8">
           <Reveal>
             <p className="eyebrow mb-5">Project enquiries</p>
-            <h1 className="mb-8 text-5xl font-normal leading-[1.1] tracking-[-0.055em] md:text-6xl">
-              Work with <span className="text-primary">Sujith.</span>
+            <h1 className="mb-8 text-5xl md:text-6xl font-display font-medium leading-[1.1] tracking-tight">
+              Work with Sujith<span className="text-primary">.</span>
             </h1>
             <div className="space-y-4 text-sm text-muted-foreground">
               {contactEmail && (

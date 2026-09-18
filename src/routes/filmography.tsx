@@ -58,12 +58,10 @@ function FilmographyPage() {
   return (
     <div className="min-h-dvh pt-44 pb-20 md:pt-44 md:pb-28">
       <div className="site-container">
-        <Reveal className="mb-12 max-w-xl">
-          <p className="eyebrow mb-5">The credits</p>
-          <h1 className="text-5xl font-normal tracking-[-0.055em] md:text-6xl">Filmography</h1>
-          <p className="mt-5 text-base leading-7 text-muted-foreground">
-            Selected credits from a career spanning over 600 mixing and mastering projects across
-            cinema and music.
+        <Reveal className="mb-16 text-center">
+          <h1 className="text-4xl md:text-5xl font-display font-medium tracking-tight">Extended archive</h1>
+          <p className="mt-6 text-base md:text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
+            A comprehensive record of Sujith Sreedhar's sonic contributions across more than 600 feature films and independent releases.
           </p>
         </Reveal>
         <ArchiveNotice source={source} isFetching={isFetching} onRetry={() => void refetch()} />

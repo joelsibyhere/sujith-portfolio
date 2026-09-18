@@ -36,7 +36,9 @@ function MinimalConnect() {
       <Reveal className="site-container flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
         <div>
           <p className="eyebrow mb-4">Project enquiries</p>
-          <h2 className="section-title">Work with Sujith.</h2>
+          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight">
+            Work with Sujith<span className="text-primary">.</span>
+          </h2>
         </div>
         <Link to="/connect" className="button-primary">
           Start a project <ArrowUpRight size={16} aria-hidden="true" />

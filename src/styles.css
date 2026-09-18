@@ -67,24 +67,24 @@
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: oklch(0.96 0.015 90); /* Pleasant, warm creamy paper/sand */
-  --foreground: oklch(0.25 0.01 45); /* Soft, warm dark grey for text (no harsh black) */
-  --card: oklch(0.98 0.005 90); /* Slightly lighter cream for elevated elements */
+  --radius: 0rem;
+  --background: #F4F1ED; /* Warm Cream / Natural Sand */
+  --foreground: #1C1917; /* Deep Espresso Charcoal */
+  --card: #EDE9E4; /* Slightly darker warm cream for depth */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.45 0.06 135); /* Sophisticated deep sage green for pleasant accents */
-  --primary-foreground: oklch(0.98 0.01 90); /* Cream text on green buttons */
-  --secondary: oklch(0.92 0.02 90); /* Slightly darker warm sand */
+  --primary: #C05C3F; /* Terracotta / Rust accent */
+  --primary-foreground: #ffffff;
+  --secondary: #E8E5DF; /* Muted sand */
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.92 0.02 90);
-  --muted-foreground: oklch(0.55 0.01 45); /* Soft warm grey for secondary text */
+  --muted: #E8E5DF;
+  --muted-foreground: #78716C; /* Warm medium stone grey */
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
-  --destructive: oklch(0.55 0.19 25);
-  --destructive-foreground: oklch(0.96 0.01 80);
-  --border: oklch(0.25 0.01 45 / 10%); /* Very subtle warm dark borders */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #E0DCD6; /* Warm delicate borders */
   --input: var(--border);
   --ring: var(--primary);
   --ember: var(--primary);
@@ -162,6 +162,29 @@
   --color-ash: var(--ash);
   --color-hairline: var(--hairline);
 }
+
+/* Animations for making the site feel alive */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.2); }
+  50% { transform: scaleY(1); }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+
+@utility eq-bar {
+  animation: eq 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+  will-change: transform;
+}
+
 
 html {
   color-scheme: light;
@@ -412,15 +435,17 @@ html {
   gap: 2rem;
   min-height: 3rem;
   padding: 0.75rem 1.5rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
-  border: 1px solid var(--primary);
-  border-radius: 3px;
-  font-size: 0.875rem;
+  background: var(--foreground);
+  color: var(--background);
+  border: 1px solid var(--foreground);
+  border-radius: 2px;
+  font-size: 0.85rem;
   font-weight: 500;
-  transition: background-color 180ms ease;
+  letter-spacing: 0.05em;
+  transition: all 0.4s ease;
   &:hover {
-    background: var(--foreground);
+    background: transparent;
+    color: var(--foreground);
   }
 }
 

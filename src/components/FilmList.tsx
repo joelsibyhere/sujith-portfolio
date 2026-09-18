@@ -30,7 +30,7 @@ export function FilmList({
               params={{ slug: movie.slug.current }}
               search={archiveSearch ? { archive: archiveSearch } : {}}
               preload={false}
-              className="credit-row group"
+              className="credit-row group hover:bg-foreground/5 transition-colors duration-300 -mx-4 px-4 md:-mx-6 md:px-6 py-2 rounded-md"
               aria-label={`View ${movie.title}, ${movie.year}, ${movie.role}`}
             >
               <span
@@ -48,14 +48,14 @@ export function FilmList({
                     height={64}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-contain"
+                    className="h-full w-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                   />
                 ) : (
                   <Disc3 size={20} className="text-muted-foreground" />
                 )}
               </span>
               <span className="min-w-0">
-                <span className="block text-base leading-snug tracking-[-0.025em] md:text-xl">
+                <span className="block text-base leading-snug tracking-[-0.025em] md:text-xl group-hover:text-primary transition-colors duration-300">
                   {movie.title}
                 </span>
                 {movie.language && (
@@ -67,14 +67,14 @@ export function FilmList({
                   {movie.role}
                 </span>
               </span>
-              <span className="hidden text-sm text-muted-foreground md:block">{movie.role}</span>
-              <span className="text-xs tabular-nums text-muted-foreground md:text-sm">
+              <span className="hidden text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 md:block">{movie.role}</span>
+              <span className="text-xs tabular-nums text-muted-foreground group-hover:text-foreground transition-colors duration-300 md:text-sm">
                 {movie.year}
               </span>
               <ArrowUpRight
                 size={16}
                 aria-hidden="true"
-                className="hidden text-muted-foreground transition-colors group-hover:text-foreground md:block"
+                className="hidden text-muted-foreground transition-colors group-hover:text-primary md:block"
               />
             </Link>
           </li>
