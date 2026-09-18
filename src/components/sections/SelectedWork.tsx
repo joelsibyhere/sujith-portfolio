@@ -66,13 +66,13 @@ export function SelectedWork() {
                   aria-label={`View ${movie.title}`}
                 >
                   {/* Large Portrait Poster - Editorial Style */}
-                  <div className="w-full aspect-[2/3] overflow-hidden bg-[#f0f0f0]">
+                  <div className="w-full aspect-[2/3] overflow-hidden bg-card border border-border/50 rounded-sm">
                     {movie.imageUrl ? (
                       <img
                         src={movie.imageUrl}
                         alt={movie.title}
                         loading="lazy"
-                        className="h-full w-full object-cover transition-all duration-700 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
+                        className="h-full w-full object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">

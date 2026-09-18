@@ -48,7 +48,7 @@ export function FilmList({
                     height={64}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
                 ) : (
                   <Disc3 size={20} className="text-muted-foreground" />

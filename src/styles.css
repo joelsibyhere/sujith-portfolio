@@ -68,23 +68,23 @@
 
 :root {
   --radius: 0rem;
-  --background: #F4F1ED; /* Warm Cream / Natural Sand */
-  --foreground: #1C1917; /* Deep Espresso Charcoal */
-  --card: #EDE9E4; /* Slightly darker warm cream for depth */
+  --background: #151E2B; /* Deep Stormy Blue */
+  --foreground: #F0F4F8; /* Icy White */
+  --card: #1C2738; /* Slightly lighter storm blue */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: #C05C3F; /* Terracotta / Rust accent */
-  --primary-foreground: #ffffff;
-  --secondary: #E8E5DF; /* Muted sand */
+  --primary: #D9A05B; /* Cinematic Gold Accent */
+  --primary-foreground: #151E2B;
+  --secondary: #222E40; /* Muted Slate */
   --secondary-foreground: var(--foreground);
-  --muted: #E8E5DF;
-  --muted-foreground: #78716C; /* Warm medium stone grey */
+  --muted: #222E40;
+  --muted-foreground: #8C9BB0; /* Soft misty blue-grey */
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #E0DCD6; /* Warm delicate borders */
+  --border: #2A384D; /* Deep delicate borders */
   --input: var(--border);
   --ring: var(--primary);
   --ember: var(--primary);
