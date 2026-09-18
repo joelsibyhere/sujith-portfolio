@@ -68,23 +68,23 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.18 0 0); /* Pure neutral Graphite / Dark Grey (like Pro Tools/Logic) */
-  --foreground: oklch(0.96 0 0); /* Crisp white text */
-  --card: oklch(0.22 0 0); /* Slightly lighter neutral grey for Bento cards */
+  --background: oklch(0.92 0.02 90); /* Warm beige/sand from Oli Jacobs reference */
+  --foreground: oklch(0.15 0.01 80); /* Deep rich black for text */
+  --card: oklch(0.95 0.01 90); /* Slightly lighter warm paper for Bento cards */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.96 0 0); /* White for primary accents */
-  --primary-foreground: oklch(0.15 0 0); /* Dark text on white buttons */
-  --secondary: oklch(0.26 0 0); /* Medium neutral grey */
+  --primary: oklch(0.15 0.01 80); /* Near black for primary accents */
+  --primary-foreground: oklch(0.95 0.01 90); /* Warm white text on buttons */
+  --secondary: oklch(0.88 0.02 90); /* Slightly darker beige */
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.26 0 0);
-  --muted-foreground: oklch(0.65 0 0); /* Soft grey for secondary text */
+  --muted: oklch(0.88 0.02 90);
+  --muted-foreground: oklch(0.45 0.01 80); /* Warm medium grey for secondary text */
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
   --destructive: oklch(0.55 0.19 25);
   --destructive-foreground: oklch(0.96 0.01 80);
-  --border: oklch(0.96 0 0 / 10%); /* Very subtle white borders */
+  --border: oklch(0.15 0.01 80 / 12%); /* Subtle dark borders for the grid */
   --input: var(--border);
   --ring: var(--primary);
   --ember: var(--primary);
