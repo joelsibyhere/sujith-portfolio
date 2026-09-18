@@ -9,6 +9,10 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    getScrollRestorationKey: (location) =>
+      location.pathname === "/filmography"
+        ? location.href
+        : (location.state.__TSR_key ?? location.href),
     defaultPreloadStaleTime: 0,
   });
 

@@ -1,79 +1,51 @@
 import { Link } from "@tanstack/react-router";
-import heroStudio from "@/assets/sujith-hero.jpg";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/Reveal";
+import heroImage from "@/assets/sujith-portrait-real.jpg";
 
 export function Hero() {
   return (
-    <section 
-      className="relative flex min-h-dvh w-full items-center overflow-hidden bg-[#050505] pt-24"
-    >
-      {/* Edge-to-edge Cinematic Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        
-        {/* Hero Image */}
-        <div className="absolute inset-0 h-full w-full">
-          <img
-            src={heroStudio}
-            alt="Cinematic studio console"
-            fetchPriority="high"
-            className="h-full w-full object-cover opacity-90 object-center contrast-125 slow-zoom"
-          />
-        </div>
-
-        {/* Lighter gradient to ensure text readability without hiding the image */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/50 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10" />
-      </div>
-
-      {/* Left-Aligned Editorial Content */}
-      <div className="relative z-30 flex w-full flex-col items-start px-8 md:px-24 lg:px-32 max-w-[1600px] mx-auto">
-        
-        {/* Massive Serif Title */}
-        <h1 className="display flex flex-col tracking-tight text-[4.5rem] md:text-[8rem] lg:text-[10rem] leading-[0.85] text-zinc-100 mb-10">
-          <span className="block animate-fade-in [animation-duration:1s]">Sujith</span>
-          <span className="block animate-fade-in [animation-delay:200ms] [animation-duration:1s]">
-            Sreedhar
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="font-mono text-[0.65rem] md:text-xs font-bold uppercase tracking-[0.3em] text-primary mb-12 animate-fade-in [animation-delay:400ms]">
-          MIXING / MASTERING
-        </p>
-        
-        {/* Editorial Body */}
-        <p className="display text-2xl md:text-4xl text-zinc-400 max-w-md leading-snug animate-fade-in [animation-delay:600ms]">
-          Shaping the sound<br />behind cinema
-        </p>
-
-        {/* Stats Section */}
-        <div className="mt-16 animate-fade-in [animation-delay:800ms]">
-          <div className="display text-[5rem] md:text-[6rem] leading-none text-primary/90">
-            600+
-          </div>
-          <div className="font-serif tracking-[0.5em] text-zinc-300 uppercase text-sm md:text-base mt-2 ml-1">
-            F i l m s
-          </div>
-        </div>
+    <section className="pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-background">
+      <div className="site-container">
+        <div className="grid items-center gap-12 md:grid-cols-[1.3fr_1fr] md:gap-16 lg:gap-24">
           
-        {/* CTA Button */}
-        <Link
-          to="/filmography"
-          className="mt-16 group relative overflow-hidden border border-primary/40 bg-[#050505]/60 px-10 py-5 text-[0.65rem] md:text-xs uppercase tracking-[0.3em] text-zinc-200 backdrop-blur-sm transition-all hover:border-primary hover:text-white animate-fade-in [animation-delay:1000ms]"
-        >
-          <span className="relative z-10 flex items-center gap-4">
-            EXPLORE ARCHIVE <span className="transition-transform group-hover:translate-x-2">→</span>
-          </span>
-        </Link>
-      </div>
+          {/* Left Side: Typography */}
+          <Reveal className="max-w-2xl w-full">
+            <p className="eyebrow mb-6">Mixing & mastering engineer</p>
+            <h1 className="text-[clamp(3.5rem,7.5vw,6.5rem)] leading-[0.95] font-normal tracking-[-0.03em] text-foreground">
+              Sujith
+              <br />
+              Sreedhar<span className="text-primary">.</span>
+            </h1>
+            <p className="mt-8 max-w-sm text-base md:text-lg leading-relaxed text-muted-foreground">
+              Shaping the sound behind cinema and music. 
+              <br className="hidden sm:block" />
+              Based in India, working globally.
+            </p>
+            
+            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <a href="#work" className="text-link group flex items-center gap-2">
+                Selected work <ArrowDown size={15} className="transition-transform group-hover:translate-y-1" aria-hidden="true" />
+              </a>
+              <Link to="/about" className="inline-flex min-h-11 items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground">
+                About Sujith <ArrowUpRight size={15} aria-hidden="true" />
+              </Link>
+            </div>
+          </Reveal>
 
-      {/* Scroll indicator (Mobile & Desktop) */}
-      <div className="absolute bottom-8 left-0 right-0 z-30 flex flex-col items-center gap-3 opacity-60 animate-fade-in [animation-delay:1200ms]">
-        <span className="font-mono text-[0.5rem] md:text-[0.6rem] tracking-[0.3em] uppercase text-zinc-400">
-          Scroll to explore
-        </span>
-        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-zinc-500 animate-bounce">
-          <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+          {/* Right Side: Portrait Placement */}
+          <Reveal delay={100} className="w-full">
+            <div className="w-full max-w-[400px] mx-auto md:ml-auto md:mr-0 aspect-[4/5] overflow-hidden rounded-2xl bg-muted shadow-xl ring-1 ring-black/5">
+              <img
+                src={heroImage}
+                alt="Sujith Sreedhar"
+                fetchPriority="high"
+                className="h-full w-full object-cover object-center saturate-[0.9] transition-transform duration-700 ease-out hover:scale-105"
+              />
+            </div>
+          </Reveal>
+
+        </div>
       </div>
     </section>
   );

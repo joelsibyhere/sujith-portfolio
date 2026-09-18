@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -22,62 +23,33 @@ export function SiteNav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-700",
-        scrolled
-          ? "border-b border-hairline bg-background/85 backdrop-blur-md"
-          : "border-b border-transparent",
+        "fixed inset-x-0 top-0 z-40 bg-background/95 transition-colors",
+        scrolled && "border-b border-border backdrop-blur-md",
       )}
     >
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-12">
-        <Link
-          to="/"
-          className="text-[0.7rem] font-medium uppercase tracking-[0.3em] text-foreground"
-        >
-          Sujith Sreedhar
+      <div className="site-container flex flex-col border-b border-border md:h-24 md:flex-row md:items-center md:justify-between">
+        <Link to="/" className="pt-5 pb-3 text-lg font-medium tracking-[-0.04em] md:p-0">
+          Sujith Sreedhar<span className="text-primary">.</span>
         </Link>
-
-        <nav aria-label="Primary" className="hidden md:flex items-center gap-10">
-          <ul className="flex items-center gap-10">
-            {links.map((l) => (
-              <li key={l.label}>
+        <nav aria-label="Primary">
+          <ul className="flex items-center justify-between gap-6 pb-3 md:gap-9 md:pb-0">
+            {links.map((link) => (
+              <li key={link.to}>
                 <Link
-                  to={l.to}
-                  activeProps={{ className: "text-ember border-b border-ember pb-1" }}
+                  to={link.to}
+                  activeOptions={{ exact: link.to === "/" }}
+                  activeProps={{ className: "text-foreground", "aria-current": "page" }}
                   inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
-                  className="text-[0.65rem] uppercase tracking-[0.22em] transition-colors duration-500"
+                  className="inline-flex min-h-10 items-center gap-2 text-[13px] transition-colors"
                 >
-                  {l.label}
+                  {link.label}
+                  {link.to === "/connect" && <ArrowUpRight size={14} aria-hidden="true" />}
                 </Link>
               </li>
             ))}
           </ul>
-          <Link
-            to="/connect"
-            className="group inline-flex items-center gap-2 border border-ember px-6 py-2.5 text-[0.65rem] font-medium uppercase tracking-[0.22em] text-ember transition-colors hover:bg-ember hover:text-background"
-          >
-            Work with Sujith
-            <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
         </nav>
       </div>
-
-      {/* Mobile Horizontal Scroll Navigation */}
-      <nav 
-        aria-label="Mobile" 
-        className="md:hidden flex overflow-x-auto gap-8 px-6 pb-4 hide-scrollbar border-t border-hairline/30 pt-4"
-      >
-        {links.map((l) => (
-          <Link
-            key={l.label}
-            to={l.to}
-            activeProps={{ className: "text-ember" }}
-            inactiveProps={{ className: "text-muted-foreground" }}
-            className="whitespace-nowrap text-[0.65rem] font-medium uppercase tracking-[0.2em] transition-colors"
-          >
-            {l.label}
-          </Link>
-        ))}
-      </nav>
     </header>
   );
 }

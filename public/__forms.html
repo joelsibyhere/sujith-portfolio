@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="form-registration" content="project-enquiry" />
+    <title>Enquiry registration</title>
+  </head>
+  <body>
+    <!-- Netlify detects this static form at deploy time. Keep its names aligned with enquirySchema. -->
+    <form
+      name="project-enquiry"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="website"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="project-enquiry" />
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <input name="project" type="text" />
+      <input name="service" type="text" />
+      <input name="timeline" type="text" />
+      <textarea name="message"></textarea>
+      <input name="reference" type="text" />
+      <input name="website" type="text" />
+    </form>
+    <p><a href="/connect">Go to project enquiries</a></p>
+  </body>
+</html>

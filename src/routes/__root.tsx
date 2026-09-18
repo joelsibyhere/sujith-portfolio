@@ -107,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -139,12 +139,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AudioProvider>
-        <SiteNav />
-        <main 
-          id="main" 
-          key={location.pathname}
-          className="cinematic-enter"
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-4 focus:z-[100] focus:bg-card focus:px-4 focus:py-3"
         >
+          Skip to content
+        </a>
+        <SiteNav />
+        <main id="main" key={location.pathname} className="relative z-0">
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>

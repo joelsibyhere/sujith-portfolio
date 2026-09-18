@@ -30,12 +30,14 @@ export function Enquiry() {
             For mixing enquiries and professional collaborations.
           </p>
           <p className="eyebrow mt-12">Mixing &amp; Mastering</p>
-          <a
-            href={`mailto:${social.email}`}
-            className="link-underline mt-4 inline-block text-lg text-foreground"
-          >
-            {social.email}
-          </a>
+          {social.email && (
+            <a
+              href={`mailto:${social.email}`}
+              className="link-underline mt-4 inline-block text-lg text-foreground"
+            >
+              {social.email}
+            </a>
+          )}
         </Reveal>
 
         <Reveal delay={120} className="md:col-span-6 md:col-start-7">

@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowUpRight, Headphones } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { Hero } from "@/components/sections/Hero";
 import { SelectedWork } from "@/components/sections/SelectedWork";
-import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { Play, X } from "lucide-react";
-import drumsReal from "@/assets/sujith-drums.jpg";
+import studioDrums from "@/assets/studio-drums-real.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,20 +32,15 @@ function Index() {
 
 function MinimalConnect() {
   return (
-    <section className="bg-background py-24 flex flex-col items-center justify-center text-center border-t border-hairline">
-      <Reveal>
-        <h2 className="display text-[3rem] md:text-[5rem] tracking-tight text-foreground">
-          WORK WITH<br /><span className="italic text-primary">SUJITH</span>
-        </h2>
-        
-        <div className="mt-12">
-          <Link
-            to="/connect"
-            className="group inline-flex items-center justify-center bg-foreground px-10 py-4 text-[0.7rem] uppercase font-mono tracking-[0.3em] text-background transition-transform hover:scale-105 hover:bg-primary"
-          >
-            Start a Project →
-          </Link>
+    <section className="border-y border-border bg-card py-16 md:py-20">
+      <Reveal className="site-container flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
+        <div>
+          <p className="eyebrow mb-4">Project enquiries</p>
+          <h2 className="section-title">Work with Sujith.</h2>
         </div>
+        <Link to="/connect" className="button-primary">
+          Start a project <ArrowUpRight size={16} aria-hidden="true" />
+        </Link>
       </Reveal>
     </section>
   );
@@ -55,66 +48,58 @@ function MinimalConnect() {
 
 function ListenTeaser() {
   return (
-    <section className="relative overflow-hidden bg-[#050505] py-24 md:py-32 border-b border-hairline">
-      {/* Background Image Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={drumsReal}
-          alt="Studio Background"
+    <section id="listen" className="relative py-20 md:py-32 overflow-hidden bg-background">
+      
+      {/* Background Image Blended into Pastel Green */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img 
+          src={studioDrums} 
+          alt="" 
           loading="lazy"
-          className="h-full w-full object-cover opacity-40 grayscale"
+          className="h-full w-full object-cover opacity-[0.06] mix-blend-multiply saturate-0"
         />
-        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#050505] via-[#050505]/80 to-[#050505]/30" />
       </div>
 
-      <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12">
-        <Reveal>
-          {/* Header */}
-          <div className="mb-12">
-            <h2 className="display text-4xl md:text-5xl text-white tracking-wide mb-3">LISTEN</h2>
-            <p className="text-primary text-[0.7rem] uppercase tracking-[0.2em] font-mono">Mixed / Mastered</p>
-          </div>
-
-          {/* Content Grid */}
-          <div className="flex flex-col md:flex-row gap-12 md:gap-24 items-center">
-            {/* Left: Spotify Embed */}
-            <div className="w-full md:w-3/5">
-              <iframe
-                src="https://open.spotify.com/embed/playlist/4G9wC9KC30GurP2Ndn9jyS?utm_source=generator&theme=0"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowFullScreen={false}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                className="rounded-xl shadow-2xl bg-black"
-                style={{ borderRadius: '12px' }}
-              />
-            </div>
-
-            {/* Right: Text and Button */}
-            <div className="w-full md:w-2/5 flex flex-col items-start">
-              <p className="text-zinc-400 text-[1.05rem] font-light leading-relaxed mb-8 max-w-sm">
-                A selection of songs and projects I've mixed and mastered.
-              </p>
-              <a 
-                href="https://open.spotify.com/playlist/4G9wC9KC30GurP2Ndn9jyS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-primary px-8 py-4 text-[0.65rem] uppercase font-mono tracking-[0.2em] text-primary transition-colors hover:bg-primary hover:text-black"
-              >
-                VIEW ON SPOTIFY
-              </a>
-            </div>
-          </div>
-
-          {/* Bottom Link */}
-          <div className="mt-16">
-            <a href="#" className="text-primary text-[0.65rem] uppercase font-mono tracking-[0.2em] transition-colors hover:text-white">
-              MORE ON SOUNDCLOUD →
-            </a>
-          </div>
+      <div className="site-container relative z-10">
+        <Reveal className="mb-10">
+          <p className="eyebrow mb-3">Mixed / mastered</p>
+          <h2 className="section-title">Listen</h2>
         </Reveal>
+        
+        <div className="grid items-center gap-10 md:grid-cols-[1.5fr_1fr] md:gap-20 lg:gap-28">
+          <div className="min-w-0">
+            <iframe
+              title="Listen to Sujith Sreedhar's mixing and mastering playlist on Spotify"
+              src="https://open.spotify.com/embed/playlist/4G9wC9KC30GurP2Ndn9jyS?utm_source=generator"
+              width="100%"
+              height="352"
+              allowFullScreen={false}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              className="block rounded-xl border-0 bg-card shadow-lg"
+            />
+          </div>
+          
+          <Reveal delay={100}>
+            <Headphones
+              size={26}
+              strokeWidth={1.3}
+              aria-hidden="true"
+              className="mb-6 text-primary"
+            />
+            <p className="max-w-sm text-lg md:text-xl leading-relaxed tracking-[-0.015em] text-foreground">
+              A curated selection of songs and projects I've mixed and mastered.
+            </p>
+            <a
+              href="https://open.spotify.com/playlist/4G9wC9KC30GurP2Ndn9jyS"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 text-link inline-flex items-center gap-2"
+            >
+              Listen on Spotify <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

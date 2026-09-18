@@ -1,17 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState, useEffect } from "react";
-import { Search } from "lucide-react";
+import { useMemo } from "react";
+import { Search, X } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { FilmList } from "@/components/FilmList";
+import { ArchiveNotice } from "@/components/ArchiveNotice";
 import { useMovies } from "@/sanity/useMovies";
+import {
+  filterMovies,
+  parseArchiveSearch,
+  PAGE_SIZE,
+  MAX_VISIBLE_CREDITS,
+  type ArchiveSearch,
+} from "@/lib/filmography";
 
 export const Route = createFileRoute("/filmography")({
+  validateSearch: parseArchiveSearch,
   head: () => ({
     meta: [
       { title: "Filmography — Sujith Sreedhar | 600+ Films" },
       {
         name: "description",
         content:
-          "Browse the film archive of Sujith Sreedhar, mixing and mastering engineer across 600+ films in cinema and music.",
+          "Browse the film credits of Sujith Sreedhar, mixing and mastering engineer across 600+ films in cinema and music.",
       },
     ],
   }),
@@ -19,143 +29,147 @@ export const Route = createFileRoute("/filmography")({
 });
 
 function FilmographyPage() {
-  const [search, setSearch] = useState("");
-  const [visibleCount, setVisibleCount] = useState(50);
-  const { data: filmography = [] } = useMovies();
-
-  // Reset pagination when search changes
-  useEffect(() => {
-    setVisibleCount(50);
-  }, [search]);
-
-  const filteredFilms = useMemo(() => {
-    return filmography.filter(f => {
-      if (!search) return true;
-      const q = search.toLowerCase();
-      return (
-        f.title.toLowerCase().includes(q) ||
-        f.year.toString().includes(q) ||
-        f.language.toLowerCase().includes(q) ||
-        f.role.toLowerCase().includes(q) ||
-        f.type.toLowerCase().includes(q)
-      );
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const { data: movies, source, isFetching, refetch } = useMovies();
+  const years = useMemo(
+    () => [...new Set(movies.map((movie) => movie.year))].sort((a, b) => b - a),
+    [movies],
+  );
+  const languages = useMemo(
+    () => [...new Set(movies.map((movie) => movie.language).filter(Boolean))].sort(),
+    [movies],
+  );
+  const filtered = useMemo(() => filterMovies(movies, search), [movies, search]);
+  const visibleCount = search.limit || PAGE_SIZE;
+  const visible = filtered.slice(0, visibleCount);
+  const hasFilters = Boolean(search.q || search.year || search.language);
+  const setFilters = (patch: ArchiveSearch) => {
+    void navigate({
+      search: (previous) => parseArchiveSearch({ ...previous, limit: undefined, ...patch }),
+      replace: true,
+      resetScroll: false,
     });
-  }, [search, filmography]);
-
-  const paginatedFilms = useMemo(() => {
-    return filteredFilms.slice(0, visibleCount);
-  }, [filteredFilms, visibleCount]);
-
-  const grouped = useMemo(() => {
-    return paginatedFilms.reduce((acc, film) => {
-      if (!acc[film.year]) acc[film.year] = [];
-      acc[film.year].push(film);
-      return acc;
-    }, {} as Record<number, typeof filmography>);
-  }, [paginatedFilms]);
-
-  const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+  };
+  const clearFilters = () => {
+    void navigate({ search: {}, replace: true, resetScroll: false });
+  };
 
   return (
-    <div className="pt-32 md:pt-48 min-h-dvh flex flex-col bg-background">
-      <section className="mx-auto w-full max-w-[1200px] px-6 md:px-12 mb-24 md:mb-32">
-        <Reveal>
-          {/* PREMIUM CENTERED HEADER */}
-          <div className="flex flex-col items-center text-center">
-            <h1 className="display text-[4rem] leading-[0.85] md:text-[8rem] text-foreground tracking-tighter">
-              The Archive
-            </h1>
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.4em] text-primary mt-8">
-              600+ Projects // Film & Music
-            </p>
-          </div>
-          
-          {/* MASSIVE PREMIUM SEARCH BAR */}
-          <div className="mt-16 md:mt-24 max-w-2xl mx-auto relative group">
-            <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full transition-opacity opacity-0 group-focus-within:opacity-100" />
-            
-            <div className="relative">
-              <Search className="absolute left-8 top-1/2 -translate-y-1/2 w-6 h-6 text-primary/50 group-focus-within:text-primary transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Search by title, year, or language..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-[#0a0a0a] border border-white/10 rounded-full text-foreground pl-20 pr-8 py-6 text-lg font-light focus:outline-none focus:border-primary/50 focus:bg-black transition-all shadow-2xl placeholder:text-muted-foreground/40"
-              />
-            </div>
-            
-            {/* Quick Suggestions */}
-            <div className="flex flex-wrap justify-center gap-4 mt-8 opacity-60">
-              <span className="font-mono text-[0.6rem] uppercase tracking-widest text-muted-foreground">Try typing:</span>
-              {['Malayalam', '2023', 'Score Mixer', 'Tagaru'].map(term => (
-                <button 
-                  key={term}
-                  onClick={() => setSearch(term)}
-                  className="font-mono text-[0.6rem] uppercase tracking-widest text-primary hover:text-white transition-colors"
-                >
-                  {term}
-                </button>
-              ))}
-            </div>
-          </div>
+    <div className="min-h-dvh pt-44 pb-20 md:pt-44 md:pb-28">
+      <div className="site-container">
+        <Reveal className="mb-12 max-w-xl">
+          <p className="eyebrow mb-5">The credits</p>
+          <h1 className="text-5xl font-normal tracking-[-0.055em] md:text-6xl">Filmography</h1>
+          <p className="mt-5 text-base leading-7 text-muted-foreground">
+            Selected credits from a career spanning over 600 mixing and mastering projects across
+            cinema and music.
+          </p>
         </Reveal>
-      </section>
-
-      <section className="mx-auto w-full max-w-[1600px] px-6 md:px-24 flex-1 pb-32">
-        {years.length === 0 ? (
-          <div className="py-20 text-center font-mono text-zinc-500 uppercase tracking-widest text-sm">
-            No projects found matching your criteria.
+        <ArchiveNotice source={source} isFetching={isFetching} onRetry={() => void refetch()} />
+        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end">
+          <div className="relative flex-1">
+            <label htmlFor="film-search" className="sr-only">
+              Search film credits
+            </label>
+            <Search
+              size={17}
+              aria-hidden="true"
+              className="absolute top-1/2 left-0 -translate-y-1/2 text-muted-foreground"
+            />
+            <input
+              id="film-search"
+              type="search"
+              value={search.q || ""}
+              onChange={(event) => setFilters({ q: event.target.value })}
+              placeholder="Search by film, year, language or role"
+              className="h-12 w-full border-b border-border bg-transparent pl-8 pr-3 text-sm placeholder:text-muted-foreground focus:border-primary"
+            />
           </div>
-        ) : (
-          <>
-            {years.map((year, yearIndex) => (
-              <div key={year} className="mb-16 md:mb-24 flex flex-col md:flex-row gap-8 md:gap-24">
-                <div className="md:w-1/4">
-                  <Reveal delay={100}>
-                    <h2 className="display text-[4rem] md:text-[6rem] leading-[0.8] text-zinc-800 sticky top-32">
-                      {year}
-                    </h2>
-                  </Reveal>
-                </div>
-                
-                <div className="md:w-3/4 flex flex-col">
-                  {grouped[year].map((f, i) => (
-                    <Reveal
-                      key={`${f.title}-${i}`}
-                      delay={0}
-                      className="group flex flex-col md:flex-row md:items-center justify-between border-b border-hairline/50 py-4 md:py-6 transition-colors hover:border-primary"
-                    >
-                      <div className="flex flex-col">
-                        <span className="font-serif text-2xl md:text-3xl text-zinc-300 transition-colors duration-500 group-hover:text-primary">
-                          {f.title}
-                        </span>
-                        <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-zinc-500 mt-2">
-                          {f.language} // {f.type}
-                        </span>
-                      </div>
-                      <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-primary/80 mt-4 md:mt-0 md:text-right">
-                        {f.role}
-                      </span>
-                    </Reveal>
-                  ))}
-                </div>
-              </div>
-            ))}
-            
-            {visibleCount < filteredFilms.length && (
-              <div className="flex justify-center mt-20">
-                <button 
-                  onClick={() => setVisibleCount(v => v + 50)}
-                  className="border border-primary/30 px-10 py-4 text-xs font-mono tracking-[0.2em] text-primary uppercase transition-colors hover:bg-primary hover:text-black rounded-full"
+          <div className="flex gap-4 md:pl-8">
+            <label className="flex-1 md:w-36">
+              <span className="sr-only">Filter by year</span>
+              <select
+                value={search.year || ""}
+                onChange={(event) => setFilters({ year: event.target.value })}
+                className="h-12 w-full border-b border-border bg-transparent pr-6 text-sm"
+              >
+                <option value="">All years</option>
+                {search.year && !years.includes(Number(search.year)) && (
+                  <option value={search.year}>{search.year}</option>
+                )}
+                {years.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {(languages.length > 0 || search.language) && (
+              <label className="flex-1 md:w-40">
+                <span className="sr-only">Filter by language</span>
+                <select
+                  value={search.language || ""}
+                  onChange={(event) => setFilters({ language: event.target.value })}
+                  className="h-12 w-full border-b border-border bg-transparent pr-6 text-sm"
                 >
-                  Load More Projects ({filteredFilms.length - visibleCount} remaining)
-                </button>
-              </div>
+                  <option value="">All languages</option>
+                  {search.language && !languages.includes(search.language) && (
+                    <option value={search.language}>{search.language}</option>
+                  )}
+                  {languages.map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </label>
             )}
-          </>
+          </div>
+        </div>
+        <div className="mb-6 flex min-h-10 items-center justify-between gap-4 text-xs text-muted-foreground">
+          <p role="status" aria-live="polite">
+            Showing {visible.length} of {filtered.length}{" "}
+            {source === "sample" ? "selected" : "published"} credits
+          </p>
+          {hasFilters && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="inline-flex min-h-11 items-center gap-2 hover:text-foreground"
+            >
+              Clear filters <X size={13} aria-hidden="true" />
+            </button>
+          )}
+        </div>
+        {visible.length ? (
+          <FilmList movies={visible} archiveSearch={search} />
+        ) : (
+          <div className="border-y border-border py-20 text-center">
+            <p className="text-muted-foreground">
+              {hasFilters
+                ? "No credits match your search."
+                : "The published credits will appear here."}
+            </p>
+            {hasFilters && (
+              <button type="button" onClick={clearFilters} className="text-link mt-4">
+                View all credits
+              </button>
+            )}
+          </div>
         )}
-      </section>
+        {visibleCount < filtered.length && visibleCount < MAX_VISIBLE_CREDITS && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setFilters({ ...search, limit: visibleCount + PAGE_SIZE })}
+              className="text-link"
+            >
+              Show more credits <span aria-hidden="true">+</span>
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
