@@ -6,19 +6,39 @@ export function Hero() {
   return (
     <section className="relative min-h-[100svh] w-full bg-background flex flex-col justify-center px-6 md:px-16 lg:px-24 overflow-hidden border-b border-border">
       
-      {/* Blended Background Image */}
-      <div 
-        className="absolute inset-0 md:left-auto md:right-0 md:w-[70%] lg:w-[60%] z-0 pointer-events-none"
-        style={{
-          maskImage: 'linear-gradient(to right, transparent 0%, black 60%, black 100%)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 60%, black 100%)'
-        }}
-      >
-        <img 
-          src={studioImage} 
-          alt="Studio" 
-          className="w-full h-full object-cover object-[center_right] md:object-[right_center] grayscale opacity-10 md:opacity-15"
-        />
+      {/* Blended Background Image (Responsive Masks) */}
+      <div className="absolute inset-0 md:left-auto md:right-0 md:w-[70%] lg:w-[60%] z-0 pointer-events-none">
+        
+        {/* Mobile: Fades out at top and bottom to prevent harsh cutoffs */}
+        <div 
+          className="w-full h-full md:hidden"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)'
+          }}
+        >
+          <img 
+            src={studioImage} 
+            alt="Studio" 
+            className="w-full h-full object-cover object-center grayscale opacity-10"
+          />
+        </div>
+
+        {/* Desktop: Fades out on the left to blend into the background */}
+        <div 
+          className="hidden md:block w-full h-full"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent 0%, black 60%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 60%, black 100%)'
+          }}
+        >
+          <img 
+            src={studioImage} 
+            alt="Studio" 
+            className="w-full h-full object-cover object-[right_center] grayscale opacity-15"
+          />
+        </div>
+        
       </div>
 
       <div className="w-full max-w-[1400px] mx-auto relative z-10 pt-24 lg:pt-0">
