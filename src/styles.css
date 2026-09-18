@@ -68,23 +68,23 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.20 0.03 150); /* Deep Forest / Pine (near-black dark green) */
-  --foreground: oklch(0.95 0.01 140); /* Crisp off-white text with a microscopic green tint to blend nicely */
-  --card: oklch(0.24 0.03 150); /* Slightly lighter deep pine for Bento cards */
+  --background: oklch(0.27 0.04 150); /* Rich Pine Green (lighter, more visible green) */
+  --foreground: oklch(0.97 0.01 140); /* Crisp off-white text */
+  --card: oklch(0.32 0.04 150); /* Slightly lighter pine for cards */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.95 0.01 140); /* White for primary accents */
-  --primary-foreground: oklch(0.20 0.03 150); /* Dark forest text on white buttons */
-  --secondary: oklch(0.26 0.03 150); /* Soft lighter pine */
+  --primary: oklch(0.97 0.01 140); /* White for primary accents */
+  --primary-foreground: oklch(0.27 0.04 150); /* Pine text on white buttons */
+  --secondary: oklch(0.35 0.04 150); /* Soft lighter pine */
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.26 0.03 150);
-  --muted-foreground: oklch(0.70 0.02 150); /* Soft green-grey for secondary text */
+  --muted: oklch(0.35 0.04 150);
+  --muted-foreground: oklch(0.78 0.02 150); /* Light green-grey for secondary text */
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
   --destructive: oklch(0.55 0.19 25);
   --destructive-foreground: oklch(0.96 0.01 80);
-  --border: oklch(0.95 0.01 140 / 10%); /* Very subtle white borders */
+  --border: oklch(0.97 0.01 140 / 12%); /* Subtle white borders */
   --input: var(--border);
   --ring: var(--primary);
   --ember: var(--primary);
