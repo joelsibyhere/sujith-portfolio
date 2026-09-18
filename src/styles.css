@@ -68,23 +68,23 @@
 
 :root {
   --radius: 0.25rem;
-  --background: oklch(0.98 0.01 85); /* Expensive, warm alabaster/paper white */
-  --foreground: oklch(0.15 0.01 250); /* Deep, rich charcoal for highly professional text */
-  --card: oklch(0.99 0.005 85); /* Pure white for elevated cards */
+  --background: oklch(0.18 0.015 250); /* Deep studio charcoal/slate (dark, not pure black) */
+  --foreground: oklch(0.95 0.01 250); /* Crisp off-white text for high contrast */
+  --card: oklch(0.22 0.015 250); /* Slightly lighter slate for Bento cards */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.15 0.01 250); /* Deep charcoal for buttons/accents */
-  --primary-foreground: oklch(0.98 0.01 85); /* Off-white text on buttons */
-  --secondary: oklch(0.94 0.01 85); /* Very soft warm grey for secondary elements */
+  --primary: oklch(0.95 0.01 250); /* Bright white for primary accents */
+  --primary-foreground: oklch(0.18 0.015 250); /* Dark text on primary buttons */
+  --secondary: oklch(0.25 0.015 250); /* Soft lighter slate */
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.94 0.01 85);
-  --muted-foreground: oklch(0.45 0.01 250); /* Elegant medium grey for secondary text */
+  --muted: oklch(0.25 0.015 250);
+  --muted-foreground: oklch(0.70 0.01 250); /* Soft grey for secondary text */
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
   --destructive: oklch(0.55 0.19 25);
   --destructive-foreground: oklch(0.96 0.01 80);
-  --border: oklch(0.15 0.01 250 / 10%); /* Very subtle, clean border */
+  --border: oklch(0.95 0.01 250 / 12%); /* Subtle white borders for the grid */
   --input: var(--border);
   --ring: var(--primary);
   --ember: var(--primary);
