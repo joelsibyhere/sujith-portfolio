@@ -41,22 +41,22 @@ export function Hero() {
 
           {/* Right Side: Elegant Floating Portrait */}
           <Reveal delay={200} className="w-full relative flex justify-center md:justify-end">
-            <div className="w-full max-w-[440px] aspect-[4/5] relative [mask-image:linear-gradient(to_bottom,black_70%,transparent_100%)] md:[mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)] overflow-hidden rounded-lg">
-              {/* Cinematic color tint overlay to blend with the Deep Forest background */}
-              <div className="absolute inset-0 bg-background/40 mix-blend-color z-10 pointer-events-none"></div>
+            <div className="w-full max-w-[440px] aspect-[4/5] relative [mask-image:linear-gradient(to_bottom,black_75%,transparent_100%)] md:[mask-image:linear-gradient(to_bottom,black_65%,transparent_100%)] overflow-hidden rounded-lg">
+              {/* Very subtle warm overlay to blend with the light pleasant theme */}
+              <div className="absolute inset-0 bg-background/10 mix-blend-overlay z-10 pointer-events-none"></div>
               <img
                 src={heroImage}
                 alt="Sujith Sreedhar"
                 fetchPriority="high"
-                className="h-full w-full object-cover object-center saturate-50 contrast-125 transition-transform duration-[2000ms] hover:scale-105"
+                className="h-full w-full object-cover object-center saturate-[0.9] contrast-[1.05] transition-transform duration-[2000ms] hover:scale-105"
               />
             </div>
             
             {/* Artistic Stat Badge floating over the fade */}
             <Reveal delay={400} className="absolute bottom-12 left-0 md:bottom-20 md:left-4 z-20">
               <div className="pl-6 border-l-2 border-primary">
-                <p className="text-4xl md:text-5xl font-light tracking-tighter text-foreground mb-1 drop-shadow-lg">600+</p>
-                <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary/80 font-medium drop-shadow-md">Film Credits</p>
+                <p className="text-4xl md:text-5xl font-light tracking-tighter text-foreground mb-1 drop-shadow-sm">600+</p>
+                <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary font-medium">Film Credits</p>
               </div>
             </Reveal>
           </Reveal>
