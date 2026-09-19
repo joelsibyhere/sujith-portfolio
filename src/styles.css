@@ -68,23 +68,23 @@
 
 :root {
   --radius: 0rem;
-  --background: #151E2B; /* Deep Stormy Blue */
-  --foreground: #F0F4F8; /* Icy White */
-  --card: #1C2738; /* Slightly lighter storm blue */
+  --background: #20242B; /* Cool Concrete Dark Slate */
+  --foreground: #F1F2F4; /* Cool Concrete Off-White */
+  --card: #282D36; /* Slightly lighter slate */
   --card-foreground: var(--foreground);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: #D9A05B; /* Cinematic Gold Accent */
-  --primary-foreground: #151E2B;
-  --secondary: #222E40; /* Muted Slate */
+  --primary: #F1F2F4; /* Crisp White Accent */
+  --primary-foreground: #20242B;
+  --secondary: #2A2F37;
   --secondary-foreground: var(--foreground);
-  --muted: #222E40;
-  --muted-foreground: #8C9BB0; /* Soft misty blue-grey */
+  --muted: #2A2F37;
+  --muted-foreground: #6C757D; /* Cool Concrete Mid-Grey */
   --accent: var(--secondary);
   --accent-foreground: var(--foreground);
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #2A384D; /* Deep delicate borders */
+  --border: #383E48; /* Soft slate border */
   --input: var(--border);
   --ring: var(--primary);
   --ember: var(--primary);
@@ -156,7 +156,7 @@
    ============================================================ */
 
 @theme inline {
-  --font-display: var(--font-sans);
+  --font-display: "Playfair Display", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-ember: var(--ember);
   --color-ash: var(--ash);

@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,25 +13,39 @@ const links = [
 
 export function SiteNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { location } = useRouterState();
+  const isHome = location.pathname === "/";
 
-  // We don't need to push the page anymore, so we just manage state
-  // and let the sidebar slide over the page.
   useEffect(() => {
-  }, [menuOpen]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
       {/* Top Header (Sticky/Fixed) */}
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-300 bg-background/90 backdrop-blur-md border-b border-foreground/5 shadow-sm"
+          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          scrolled 
+            ? "bg-background/90 backdrop-blur-md border-b border-foreground/5 shadow-sm py-0" 
+            : "bg-transparent border-transparent py-2"
         )}
       >
-        <div className="site-container flex h-24 items-center justify-between border-b border-foreground/10">
+        <div className="site-container flex h-24 items-center justify-between">
           <Link 
             to="/" 
             onClick={() => setMenuOpen(false)}
-            className="text-xl font-bold tracking-tight uppercase text-foreground"
+            className={cn(
+              "text-xl font-bold tracking-tight uppercase transition-all duration-500",
+              isHome && !scrolled 
+                ? "opacity-0 pointer-events-none -translate-x-4" 
+                : "opacity-100 text-foreground translate-x-0"
+            )}
           >
             Sujith Sreedhar<span className="text-primary">.</span>
           </Link>

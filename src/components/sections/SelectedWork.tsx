@@ -1,109 +1,78 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight, Disc3 } from "lucide-react";
-import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { useMovies } from "@/sanity/useMovies";
 import { selectFeaturedMovies } from "@/lib/filmography";
 
 export function SelectedWork() {
   const { data: movies } = useMovies();
-  // Grab enough movies to make the carousel scroll nicely
-  const featured = selectFeaturedMovies(movies).slice(0, 10);
-  
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  const scrollLeft = () => {
-    scrollContainerRef.current?.scrollBy({ left: -340, behavior: "smooth" });
-  };
-
-  const scrollRight = () => {
-    scrollContainerRef.current?.scrollBy({ left: 340, behavior: "smooth" });
-  };
+  // Sterling Sound keeps their featured selection concise and highly curated
+  const featured = selectFeaturedMovies(movies).slice(0, 8); 
 
   return (
-    <section id="work" className="py-24 md:py-32 relative bg-background text-foreground border-t border-border overflow-hidden">
-      <div className="site-container pl-6 md:pl-12 lg:pl-20 pr-0">
+    <section id="work" className="py-24 md:py-32 relative bg-background text-foreground border-t border-border">
+      <div className="site-container px-6 md:px-12 lg:px-20 max-w-[1400px]">
         
-        {/* Header */}
-        <Reveal className="mb-12 flex flex-col md:mb-16 md:flex-row md:items-end md:justify-between pr-6 md:pr-12 lg:pr-20">
-          <div className="mb-6 md:mb-0">
-            <p className="text-4xl md:text-6xl font-display font-medium tracking-tight">Selected Films</p>
+        {/* Header - Sterling Sound Utility Style */}
+        <Reveal className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end md:justify-between border-b border-border pb-8">
+          <div>
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight mb-2">Curated Portfolio</h2>
+            <p className="text-sm text-muted-foreground font-medium">Selected Audio Engineering Credits</p>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <Link to="/filmography" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 pb-2 text-sm uppercase tracking-widest font-medium">
-              Explore full archive <ArrowRight size={16} />
-            </Link>
-          </div>
+          <Link 
+            to="/filmography" 
+            className="mt-8 md:mt-0 px-6 py-3 border border-border hover:border-foreground transition-colors text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 group"
+          >
+            Search Full Database
+            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
         </Reveal>
 
-        {/* Netflix-Style Horizontal Carousel with Apple-Style Floating Arrows */}
-        <Reveal delay={100} className="w-full">
-          <div className="relative group/carousel">
-            
-            {/* Apple-Style Floating Left Arrow */}
-            <button 
-              onClick={scrollLeft}
-              className="hidden md:flex absolute left-4 top-[45%] -translate-y-1/2 z-20 items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] text-black opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105"
-              aria-label="Scroll Left"
-            >
-              <ChevronLeft size={28} strokeWidth={2.5} />
-            </button>
-
-            {/* Hide scrollbar natively but allow touch scrolling */}
-            <div 
-              ref={scrollContainerRef}
-              className="flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-12 pr-6 md:pr-12 lg:pr-20"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {featured.map((movie) => (
-                <Link
-                  key={movie._id}
-                  to="/work/$slug"
-                  params={{ slug: movie.slug.current }}
-                  className="group flex flex-col gap-5 shrink-0 snap-start"
-                  style={{ width: "clamp(220px, 25vw, 320px)" }}
-                  aria-label={`View ${movie.title}`}
-                >
-                  {/* Large Portrait Poster - Editorial Style */}
-                  <div className="w-full aspect-[2/3] overflow-hidden bg-card border border-border/50 rounded-sm">
-                    {movie.imageUrl ? (
-                      <img
-                        src={movie.imageUrl}
-                        alt={movie.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center">
-                        <Disc3 size={40} className="text-muted-foreground/20" />
-                      </div>
-                    )}
-                  </div>
+        {/* The Sterling-Style "Square Album" Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 md:gap-x-10 gap-y-16">
+          {featured.map((movie, index) => (
+            <Reveal key={movie._id} delay={index * 50} className="flex flex-col group cursor-pointer">
+              <Link
+                to="/work/$slug"
+                params={{ slug: movie.slug.current }}
+                className="flex flex-col h-full"
+              >
+                
+                {/* Square Crop - Crucial for the "Audio/Album" Psychology */}
+                <div className="w-full aspect-square overflow-hidden bg-card border border-border/50 mb-6 relative">
+                  {/* Subtle hover overlay */}
+                  <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors duration-300 z-10"></div>
                   
-                  {/* Metadata styled like streaming UI */}
-                  <div className="flex flex-col gap-1 px-1">
-                    <h3 className="text-sm md:text-base font-bold tracking-[0.1em] text-foreground uppercase truncate transition-colors group-hover:text-primary">
-                      {movie.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground font-medium opacity-80 uppercase tracking-widest">
-                      {movie.year}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  {movie.imageUrl && (
+                    <img 
+                      src={movie.imageUrl} 
+                      alt={movie.title}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                    />
+                  )}
+                </div>
 
-            {/* Apple-Style Floating Right Arrow */}
-            <button 
-              onClick={scrollRight}
-              className="hidden md:flex absolute right-12 top-[45%] -translate-y-1/2 z-20 items-center justify-center w-14 h-14 rounded-full bg-white/70 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.15)] text-black opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-105"
-              aria-label="Scroll Right"
-            >
-              <ChevronRight size={28} strokeWidth={2.5} />
-            </button>
-          </div>
-        </Reveal>
+                {/* Typography - Strict Utility Data */}
+                <div className="flex flex-col">
+                  <h3 className="text-sm md:text-base font-bold tracking-[0.05em] text-foreground uppercase truncate">
+                    {movie.title}
+                  </h3>
+                  
+                  <div className="flex items-center justify-between mt-2">
+                    <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">
+                      Film Score
+                    </p>
+                    <span className="text-[10px] font-mono text-muted-foreground opacity-60">
+                      {movie.year || "----"}
+                    </span>
+                  </div>
+                </div>
+                
+              </Link>
+            </Reveal>
+          ))}
+        </div>
 
       </div>
     </section>

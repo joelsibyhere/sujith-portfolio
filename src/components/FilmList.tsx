@@ -13,13 +13,13 @@ export function FilmList({
     <div>
       <div
         aria-hidden="true"
-        className="credit-columns hidden items-center border-b border-border py-4 text-xs text-muted-foreground md:grid"
+        className="credit-columns hidden items-center border-b border-foreground/10 py-6 text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground md:grid"
       >
-        <span>No.</span>
+        <span>ID</span>
         <span />
-        <span>Project</span>
-        <span>Contribution</span>
-        <span>Year</span>
+        <span>TITLE</span>
+        <span>ROLE</span>
+        <span>YEAR</span>
         <span />
       </div>
       <ol className="border-t border-border md:border-t-0">
@@ -35,40 +35,40 @@ export function FilmList({
             >
               <span
                 aria-hidden="true"
-                className="hidden text-xs tabular-nums text-muted-foreground md:block"
+                className="hidden text-xs tabular-nums font-mono text-muted-foreground md:block"
               >
-                {String(index + 1).padStart(2, "0")}
+                {String(index + 1).padStart(3, "0")}
               </span>
-              <span className="flex aspect-[3/4] w-11 items-center justify-center overflow-hidden rounded-[2px] bg-muted md:w-12">
+              <span className="flex aspect-square w-12 items-center justify-center overflow-hidden rounded-sm border border-border/50 bg-muted md:w-14">
                 {movie.imageUrl ? (
                   <img
                     src={movie.imageUrl}
                     alt=""
-                    width={48}
-                    height={64}
+                    width={56}
+                    height={56}
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
                   />
                 ) : (
                   <Disc3 size={20} className="text-muted-foreground" />
                 )}
               </span>
               <span className="min-w-0">
-                <span className="block text-base leading-snug tracking-[-0.025em] md:text-xl group-hover:text-primary transition-colors duration-300">
+                <span className="block text-sm md:text-[15px] font-bold uppercase tracking-[0.05em] leading-snug group-hover:text-primary transition-colors duration-300">
                   {movie.title}
                 </span>
                 {movie.language && (
-                  <span className="mt-1 hidden text-xs text-muted-foreground md:block">
+                  <span className="mt-1 hidden text-[10px] uppercase tracking-widest text-muted-foreground md:block">
                     {movie.language}
                   </span>
                 )}
-                <span className="mt-1 block text-xs leading-relaxed text-muted-foreground md:hidden">
+                <span className="mt-1 block text-[10px] uppercase tracking-widest leading-relaxed text-muted-foreground md:hidden">
                   {movie.role}
                 </span>
               </span>
-              <span className="hidden text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-300 md:block">{movie.role}</span>
-              <span className="text-xs tabular-nums text-muted-foreground group-hover:text-foreground transition-colors duration-300 md:text-sm">
+              <span className="hidden text-xs uppercase tracking-widest text-muted-foreground group-hover:text-foreground transition-colors duration-300 md:block">{movie.role}</span>
+              <span className="text-xs font-mono tabular-nums text-muted-foreground group-hover:text-foreground transition-colors duration-300 md:text-sm">
                 {movie.year}
               </span>
               <ArrowUpRight
