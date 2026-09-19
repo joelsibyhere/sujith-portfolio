@@ -1,80 +1,132 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { useMovies } from "@/sanity/useMovies";
 import { selectFeaturedMovies } from "@/lib/filmography";
 
 export function SelectedWork() {
   const { data: movies } = useMovies();
-  // Sterling Sound keeps their featured selection concise and highly curated
-  const featured = selectFeaturedMovies(movies).slice(0, 8); 
+  const featured = selectFeaturedMovies(movies);
+  
+  // We need enough movies to make the infinite scroll work smoothly.
+  // We'll create 3 separate rows with different sets of movies.
+  const row1 = [...featured, ...featured, ...featured].slice(0, 16);
+  const row2 = [...featured, ...featured, ...featured].slice(4, 20);
+  const row3 = [...featured, ...featured, ...featured].slice(8, 24);
 
   return (
-    <section id="work" className="py-24 md:py-32 relative bg-background text-foreground border-t border-border">
-      <div className="site-container px-6 md:px-12 lg:px-20 max-w-[1400px]">
-        
-        {/* Header - Sterling Sound Utility Style */}
-        <Reveal className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end md:justify-between border-b border-border pb-8">
-          <div>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight mb-2">Curated Portfolio</h2>
-            <p className="text-sm text-muted-foreground font-medium">Selected Audio Engineering Credits</p>
-          </div>
-          
-          <Link 
-            to="/filmography" 
-            className="mt-8 md:mt-0 px-6 py-3 border border-border hover:border-foreground transition-colors text-[10px] uppercase tracking-widest font-bold flex items-center gap-2 group"
-          >
-            Search Full Database
-            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
+    <section id="work" className="py-20 md:py-32 relative bg-background text-foreground border-t border-border overflow-hidden">
+      
+      {/* Inline styles for the infinite marquee */}
+      <style>
+        {`
+          @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .animate-scroll-left {
+            animation: scrollLeft 60s linear infinite;
+          }
+          .animate-scroll-right {
+            animation: scrollRight 60s linear infinite;
+          }
+          /* Pause the entire wall when hovering over any poster (Desktop only) */
+          @media (hover: hover) and (pointer: fine) {
+            .pause-on-hover:hover .animate-scroll-left,
+            .pause-on-hover:hover .animate-scroll-right {
+              animation-play-state: paused;
+            }
+          }
+        `}
+      </style>
+
+      <div className="site-container px-6 md:px-12 lg:px-20 mb-12">
+        <Reveal className="flex flex-col items-center text-center">
+          <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] font-semibold text-muted-foreground mb-4">The Archive</p>
+          <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tight">Wall of Sound</h2>
         </Reveal>
-
-        {/* The Sterling-Style "Square Album" Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 md:gap-x-10 gap-y-16">
-          {featured.map((movie, index) => (
-            <Reveal key={movie._id} delay={index * 50} className="flex flex-col group cursor-pointer">
-              <Link
-                to="/work/$slug"
-                params={{ slug: movie.slug.current }}
-                className="flex flex-col h-full"
-              >
-                
-                {/* Square Crop - Crucial for the "Audio/Album" Psychology */}
-                <div className="w-full aspect-square overflow-hidden bg-card border border-border/50 mb-6 relative">
-                  {/* Subtle hover overlay */}
-                  <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors duration-300 z-10"></div>
-                  
-                  {movie.imageUrl && (
-                    <img 
-                      src={movie.imageUrl} 
-                      alt={movie.title}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                    />
-                  )}
-                </div>
-
-                {/* Typography - Strict Utility Data */}
-                <div className="flex flex-col">
-                  <h3 className="text-sm md:text-base font-bold tracking-[0.05em] text-foreground uppercase truncate">
-                    {movie.title}
-                  </h3>
-                  
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">
-                      Film Score
-                    </p>
-                    <span className="text-[10px] font-mono text-muted-foreground opacity-60">
-                      {movie.year || "----"}
-                    </span>
-                  </div>
-                </div>
-                
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-
       </div>
+
+      {/* The Scrolling "Fisheye" Grid Wall */}
+      <div 
+        className="w-full relative pause-on-hover cursor-pointer"
+        style={{
+          WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 90%)",
+          maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 90%)"
+        }}
+      >
+        <div className="flex flex-col gap-2 md:gap-3 py-10 md:py-20 w-full overflow-hidden perspective-[1000px]">
+          
+          {/* Row 1 - Scrolls Left */}
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-2 md:gap-3">
+            {row1.map((movie, index) => (
+              <MarqueeItem key={`r1-${movie._id}-${index}`} movie={movie} />
+            ))}
+            {row1.map((movie, index) => (
+              <MarqueeItem key={`r1-dup-${movie._id}-${index}`} movie={movie} />
+            ))}
+          </div>
+
+          {/* Row 2 - Scrolls Right */}
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-right gap-2 md:gap-3 ml-[-10vw]">
+            {row2.map((movie, index) => (
+              <MarqueeItem key={`r2-${movie._id}-${index}`} movie={movie} />
+            ))}
+            {row2.map((movie, index) => (
+              <MarqueeItem key={`r2-dup-${movie._id}-${index}`} movie={movie} />
+            ))}
+          </div>
+
+          {/* Row 3 - Scrolls Left */}
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-2 md:gap-3 ml-[-5vw]">
+            {row3.map((movie, index) => (
+              <MarqueeItem key={`r3-${movie._id}-${index}`} movie={movie} />
+            ))}
+            {row3.map((movie, index) => (
+              <MarqueeItem key={`r3-dup-${movie._id}-${index}`} movie={movie} />
+            ))}
+          </div>
+
+        </div>
+      </div>
+
+      <div className="flex justify-center mt-8">
+        <Link 
+          to="/filmography" 
+          className="px-8 py-3 border border-border hover:border-foreground transition-colors text-[10px] uppercase tracking-widest font-bold bg-background/50 backdrop-blur-sm z-10"
+        >
+          View Full Database
+        </Link>
+      </div>
+
     </section>
+  );
+}
+
+function MarqueeItem({ movie }: { movie: any }) {
+  return (
+    <div className="flex-none w-[120px] sm:w-[150px] md:w-[180px] lg:w-[220px] aspect-square relative group overflow-hidden bg-card/20 rounded-sm">
+      <Link
+        to="/work/$slug"
+        params={{ slug: movie.slug.current }}
+        className="w-full h-full block"
+      >
+        {movie.imageUrl && (
+          <img 
+            src={movie.imageUrl} 
+            alt={movie.title}
+            className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+          />
+        )}
+        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 text-center">
+          <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-white drop-shadow-md">
+            {movie.title}
+          </span>
+        </div>
+      </Link>
+    </div>
   );
 }
