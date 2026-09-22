@@ -1,4 +1,4 @@
-export const movieMetadata: Record<string, { year: number; language: string }> = {
+export const movieMetadata: Record<string, { year?: number | string; language: string; type?: string }> = {
   "777 Charlie": { year: 2022, language: "Kannada" },
   "Ae Dil Hai Mushkil": { year: 2016, language: "Hindi" },
   "Agnyathavasi": { year: 2018, language: "Telugu" },
@@ -7,7 +7,7 @@ export const movieMetadata: Record<string, { year: number; language: string }> =
   "Arjun Chakravarthy": { year: 2023, language: "Telugu" },
   "Athiradi": { year: 2015, language: "Tamil" },
   "Achyuta Avataaram": { year: 2026, language: "Malayalam" },
-  "Baadal": { year: 2024, language: "Malayalam" },
+  "Baadal": { year: 2024, language: "Hindi", type: "Music Video" },
   "Bad Manners": { year: 2023, language: "Kannada" },
   "Bermuda": { year: 2022, language: "Malayalam" },
   "Bheema": { year: 2024, language: "Kannada" },
@@ -19,9 +19,9 @@ export const movieMetadata: Record<string, { year: number; language: string }> =
   "Geejaga Hakki": { year: 2024, language: "Kannada" },
   "Godhi Banna Sadharana Mykattu": { year: 2016, language: "Kannada" },
   "Head Bush": { year: 2022, language: "Kannada" },
-  "Hi": { year: 2024, language: "Telugu" },
+  "Hi": { year: 2026, language: "Tamil" },
   "James": { year: 2022, language: "Kannada" },
-  "Just Married": { year: 2024, language: "Malayalam" },
+  "Just Married": { year: 2025, language: "Kannada" },
   "Kabali": { year: 2016, language: "Tamil" },
   "Kaala": { year: 2018, language: "Tamil" },
   "Kambi Katna Kathai": { year: 2024, language: "Tamil" },
@@ -30,7 +30,7 @@ export const movieMetadata: Record<string, { year: number; language: string }> =
   "Kavaludaari": { year: 2019, language: "Kannada" },
   "Kuiko": { year: 2023, language: "Tamil" },
   "Laughing Buddha": { year: 2024, language: "Kannada" },
-  "Lovely": { year: 2024, language: "Malayalam" },
+  "Lovely": { year: "TBD", language: "TBD" },
   "Maarnami": { year: 2024, language: "Kannada" },
   "Maha Ganapathim": { year: 2024, language: "Malayalam" },
   "Makal": { year: 2022, language: "Malayalam" },
@@ -54,7 +54,7 @@ export const movieMetadata: Record<string, { year: number; language: string }> =
   "Tagaru": { year: 2018, language: "Kannada" },
   "Thallumaala": { year: 2022, language: "Malayalam" },
   "Thalaivar Thambi Thalaimaiyil": { year: 2024, language: "Tamil" },
-  "Veera": { year: 2018, language: "Kannada" },
+  "Veera": { year: 2018, language: "Tamil" },
   "Vikram Vedha": { year: 2017, language: "Tamil" },
   "Veeranjaneyulu Vihara Yatra": { year: 2024, language: "Telugu" }
 };

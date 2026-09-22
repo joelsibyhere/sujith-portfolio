@@ -133,7 +133,7 @@ export const sampleArchive: Archive = {
           language: meta?.language || "Various",
           role: "Sound Engineer",
           contributions: [],
-          type: "Feature Film",
+          type: meta?.type || "Feature Film",
           imageUrl: poster.thumbnail,
           featured: false,
           featuredOrder: 2000,
