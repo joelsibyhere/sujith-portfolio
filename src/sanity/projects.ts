@@ -105,7 +105,7 @@ export const sampleArchive: Archive = {
         role: credit.role,
         contributions: [],
         type: credit.type,
-        imageUrl: undefined,
+        imageUrl: posterGallery.find((p) => p.title === credit.title)?.thumbnail || undefined,
         featured: false,
         featuredOrder: 1000,
       })),
