@@ -69,6 +69,7 @@ function normalizeProject(value: unknown): Movie | undefined {
 }
 
 import { posterGallery } from "@/data/poster-gallery";
+import { movieMetadata } from "@/data/movie-metadata";
 
 export const sampleArchive: Archive = {
   source: "sample",
@@ -115,19 +116,29 @@ export const sampleArchive: Archive = {
           !selectedWork.find((sw) => sw.title === poster.title) &&
           !filmography.find((f) => f.title === poster.title)
       )
-      .map((poster) => ({
-        _id: poster.id,
-        title: poster.title,
-        slug: { current: poster.projectSlug || poster.id },
-        year: new Date().getFullYear(), // Default since we don't have this data yet
-        language: "TBD",
-        role: "TBD",
-        contributions: [],
-        type: "Feature Film",
-        imageUrl: poster.thumbnail,
-        featured: false,
-        featuredOrder: 2000,
-      })),
+      .map((poster) => {
+        // Look up the actual researched release year and language
+        // Fallback to basic string matching for weird dash characters
+        let meta = movieMetadata[poster.title];
+        if (!meta) {
+          const match = Object.keys(movieMetadata).find(k => k.includes(poster.title.split(" ")[0]));
+          if (match) meta = movieMetadata[match];
+        }
+
+        return {
+          _id: poster.id,
+          title: poster.title,
+          slug: { current: poster.projectSlug || poster.id },
+          year: meta?.year || new Date().getFullYear(),
+          language: meta?.language || "Various",
+          role: "Sound Engineer",
+          contributions: [],
+          type: "Feature Film",
+          imageUrl: poster.thumbnail,
+          featured: false,
+          featuredOrder: 2000,
+        };
+      }),
   ],
 };
 
