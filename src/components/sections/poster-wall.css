@@ -1,0 +1,184 @@
+.poster-wall-frame {
+  --poster-size: clamp(100px, 13vw, 170px);
+  --poster-gap: 12px;
+  --poster-step: calc(var(--poster-size) + var(--poster-gap));
+  position: relative;
+  max-width: 1440px;
+  margin-inline: auto;
+  overflow: hidden;
+  background: var(--card);
+  padding-block: 32px;
+  isolation: isolate;
+}
+
+.poster-wall-frame::before,
+.poster-wall-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: -10%;
+  width: 120%;
+  height: 64px;
+  background: var(--background);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.poster-wall-frame::before {
+  top: -42px;
+}
+.poster-wall-frame::after {
+  bottom: -42px;
+}
+
+.poster-wall-surface {
+  display: grid;
+  gap: var(--poster-gap);
+  animation: poster-wall-breathe 16s ease-in-out infinite alternate;
+}
+
+.poster-wall-row {
+  position: relative;
+  height: var(--poster-size);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.poster-wall-tile {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: var(--poster-size);
+  height: var(--poster-size);
+  animation: poster-wall-drift linear infinite;
+  will-change: transform;
+}
+
+.poster-wall-trigger {
+  position: relative;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.poster-wall-caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 18px 8px 8px;
+  background: linear-gradient(transparent, oklch(0.15 0 0 / 0.9));
+  color: oklch(0.98 0 0);
+  font-size: 11px;
+  line-height: 1.4;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.poster-wall-trigger:hover .poster-wall-caption,
+.poster-wall-trigger:focus-visible .poster-wall-caption {
+  opacity: 1;
+}
+
+.poster-wall-frame[data-paused="true"] .poster-wall-tile,
+.poster-wall-frame[data-paused="true"] .poster-wall-surface,
+.poster-wall-frame:focus-within .poster-wall-tile,
+.poster-wall-frame:focus-within .poster-wall-surface {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) {
+  .poster-wall-frame:hover .poster-wall-tile,
+  .poster-wall-frame:hover .poster-wall-surface {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes poster-wall-drift {
+  from {
+    transform: translate3d(calc(-1 * var(--poster-step)), 0, 0);
+  }
+  to {
+    transform: translate3d(calc((var(--poster-count) - 1) * var(--poster-step)), 0, 0);
+  }
+}
+
+@keyframes poster-wall-breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.025);
+  }
+}
+
+/* An accessible overview is available without changing the underlying 59 items. */
+.poster-wall-grid {
+  max-width: 1200px;
+  padding: 0 24px;
+  background: transparent;
+}
+.poster-wall-grid::before,
+.poster-wall-grid::after {
+  display: none;
+}
+.poster-wall-grid .poster-wall-surface {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  animation: none;
+}
+.poster-wall-grid .poster-wall-row {
+  display: contents;
+}
+.poster-wall-grid .poster-wall-tile {
+  position: static;
+  width: auto;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  animation: none;
+  will-change: auto;
+}
+.poster-wall-grid .poster-wall-trigger img {
+  object-fit: contain;
+}
+
+@media (min-width: 640px) {
+  .poster-wall-grid .poster-wall-surface {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster-wall-motion-control {
+    display: none;
+  }
+  .poster-wall-frame {
+    max-width: 1200px;
+    padding: 0 24px;
+    background: transparent;
+  }
+  .poster-wall-frame::before,
+  .poster-wall-frame::after {
+    display: none;
+  }
+  .poster-wall-surface {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    animation: none;
+  }
+  .poster-wall-row {
+    display: contents;
+  }
+  .poster-wall-tile {
+    position: static;
+    width: auto;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    animation: none;
+    will-change: auto;
+  }
+  .poster-wall-trigger img {
+    object-fit: contain;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 640px) {
+  .poster-wall-surface {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

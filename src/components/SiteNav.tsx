@@ -59,7 +59,7 @@ export function SiteNav() {
                 className="text-foreground/80 hover:text-foreground text-[15px] font-medium flex items-center gap-1 transition-colors"
               >
                 {link.label}
-                {link.icon && <ArrowUpRight size={14} className="opacity-70" />}
+                {"icon" in link && link.icon && <ArrowUpRight size={14} className="opacity-70" />}
               </Link>
             ))}
           </nav>

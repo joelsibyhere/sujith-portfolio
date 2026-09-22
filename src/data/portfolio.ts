@@ -1,11 +1,12 @@
-const nayattu = "/images/nayattu.jpg";
-const thallumaala = "/images/thallumaala.jpg";
-const tagaru = "/images/tagaru.jpg";
-const salaga = "/images/salaga.jpg";
+import { clientPosters } from "./client-posters";
+const nayattu = clientPosters["nayattu"] || "/images/nayattu.jpg";
+const thallumaala = clientPosters["thallumaala"] || "/images/thallumaala.jpg";
+const tagaru = clientPosters["tagaru"] || "/images/tagaru.jpg";
+const salaga = clientPosters["salaga"] || "/images/salaga.jpg";
 const popcornMonkeyTigerImg = "/images/popcorn-monkey-tiger.jpg";
 const mysoreDiariesImg = "/images/mysore-diaries.jpg";
-const aeDilHaiMushkil = "/images/ae-dil-hai-mushkil.jpg";
-const vikramVedha = "/images/vikram-vedha.jpg";
+const aeDilHaiMushkil = clientPosters["ae-dil-hai-mushkil"] || "/images/ae-dil-hai-mushkil.jpg";
+const vikramVedha = clientPosters["vikram-vedha"] || "/images/vikram-vedha.jpg";
 import { contactEmail } from "@/lib/contact";
 
 /**
@@ -63,7 +64,7 @@ export const selectedWork: Project[] = [
     slug: "ae-dil-hai-mushkil",
     title: "Ae Dil Hai Mushkil",
     year: 2016,
-    role: "Mixing / Mastering",
+    role: "Recording Engineer",
     artwork: aeDilHaiMushkil,
     externalUrl: "https://www.imdb.com/title/tt4902146/",
   },
@@ -79,8 +80,11 @@ export const selectedWork: Project[] = [
     slug: "nayattu",
     title: "Nayattu",
     year: 2021,
-    role: "Mixing / Mastering",
+    role: "Song mixing / Mastering",
     artwork: nayattu,
+    description:
+      "Mixing and mastering credit for Appalaale, as listed by 123Musix in the official song credits.",
+    videoUrl: "https://www.youtube.com/watch?v=F8cQ0KK9QZw",
     externalUrl: "https://www.imdb.com/title/tt11604676/",
   },
   {
@@ -120,6 +124,16 @@ export const selectedWork: Project[] = [
     role: "Mixing / Mastering",
     artwork: mysoreDiariesImg,
   },
+  {
+    slug: "premalu",
+    title: "Premalu",
+    year: 2024,
+    role: "Song mixing / Mastering",
+    artwork: "/images/client-posters/premalu.webp",
+    description:
+      "Mixing and mastering for songs including Welcome to Hyderabad and Mini Maharani, credited in the official Bhavana Studios jukebox.",
+    videoUrl: "https://www.youtube.com/watch?v=ZJTNymJ5g1A",
+  },
 ];
 
 export function getProject(slug: string) {
@@ -137,28 +151,167 @@ export type FilmCredit = {
 };
 
 export const filmography: FilmCredit[] = [
-  { title: "Bethlehem Kudumba Unit", year: 2026, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Hi", year: 2026, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Citylights", year: 2026, language: "Malayalam", role: "Music Programming / Production", type: "Feature Film" },
-  { title: "Thallumaala", year: 2022, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Mysore Diaries", year: 2022, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Nayattu", year: 2021, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Salaga", year: 2021, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
+  {
+    title: "Premalu",
+    year: 2024,
+    language: "Malayalam",
+    role: "Song mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Bethlehem Kudumba Unit",
+    year: 2026,
+    language: "Malayalam",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Hi",
+    year: 2026,
+    language: "Malayalam",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Citylights",
+    year: 2026,
+    language: "Malayalam",
+    role: "Music Programming / Production",
+    type: "Feature Film",
+  },
+  {
+    title: "Thallumaala",
+    year: 2022,
+    language: "Malayalam",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Mysore Diaries",
+    year: 2022,
+    language: "Kannada",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Nayattu",
+    year: 2021,
+    language: "Malayalam",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Salaga",
+    year: 2021,
+    language: "Kannada",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
   { title: "Kotigobba 3", year: 2021, language: "Kannada", role: "Mixing", type: "Feature Film" },
-  { title: "Vaazhl", year: 2021, language: "Tamil", role: "Soundtrack Production", type: "Feature Film" },
-  { title: "Popcorn Monkey Tiger", year: 2019, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Avane Srimannarayana", year: 2019, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Kavaludaari", year: 2019, language: "Kannada", role: "Mastering", type: "Feature Film" },
-  { title: "Shibu", year: 2019, language: "Malayalam", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Tagaru", year: 2018, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Idi Naa Love Story", year: 2018, language: "Telugu", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Vikram Vedha", year: 2017, language: "Tamil", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Velaiilla Pattadhari 2", year: 2017, language: "Tamil", role: "Recording Engineer", type: "Feature Film" },
-  { title: "Bairavaa", year: 2017, language: "Tamil", role: "Recording Engineer", type: "Feature Film" },
-  { title: "Power Paandi", year: 2017, language: "Tamil", role: "Mastering Engineer", type: "Feature Film" },
+  {
+    title: "Vaazhl",
+    year: 2021,
+    language: "Tamil",
+    role: "Soundtrack Production",
+    type: "Feature Film",
+  },
+  {
+    title: "Popcorn Monkey Tiger",
+    year: 2019,
+    language: "Kannada",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Avane Srimannarayana",
+    year: 2019,
+    language: "Kannada",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Kavaludaari",
+    year: 2019,
+    language: "Kannada",
+    role: "Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Shibu",
+    year: 2019,
+    language: "Malayalam",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Tagaru",
+    year: 2018,
+    language: "Kannada",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Idi Naa Love Story",
+    year: 2018,
+    language: "Telugu",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Vikram Vedha",
+    year: 2017,
+    language: "Tamil",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Velaiilla Pattadhari 2",
+    year: 2017,
+    language: "Tamil",
+    role: "Recording Engineer",
+    type: "Feature Film",
+  },
+  {
+    title: "Bairavaa",
+    year: 2017,
+    language: "Tamil",
+    role: "Recording Engineer",
+    type: "Feature Film",
+  },
+  {
+    title: "Power Paandi",
+    year: 2017,
+    language: "Tamil",
+    role: "Mastering Engineer",
+    type: "Feature Film",
+  },
   { title: "Maanagaram", year: 2017, language: "Tamil", role: "Mixing", type: "Feature Film" },
-  { title: "Ae Dil Hai Mushkil", year: 2016, language: "Hindi", role: "Recording Engineer", type: "Feature Film" },
-  { title: "Godhi Banna Sadharana Mykattu", year: 2016, language: "Kannada", role: "Mixing / Mastering", type: "Feature Film" },
-  { title: "Kabali", year: 2016, language: "Tamil", role: "Recording Engineer", type: "Feature Film" },
-  { title: "Kodi", year: 2016, language: "Tamil", role: "Recording Engineer", type: "Feature Film" },
+  {
+    title: "Ae Dil Hai Mushkil",
+    year: 2016,
+    language: "Hindi",
+    role: "Recording Engineer",
+    type: "Feature Film",
+  },
+  {
+    title: "Godhi Banna Sadharana Mykattu",
+    year: 2016,
+    language: "Kannada",
+    role: "Mixing / Mastering",
+    type: "Feature Film",
+  },
+  {
+    title: "Kabali",
+    year: 2016,
+    language: "Tamil",
+    role: "Recording Engineer",
+    type: "Feature Film",
+  },
+  {
+    title: "Kodi",
+    year: 2016,
+    language: "Tamil",
+    role: "Recording Engineer",
+    type: "Feature Film",
+  },
 ];

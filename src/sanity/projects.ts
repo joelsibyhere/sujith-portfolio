@@ -2,13 +2,8 @@ import { queryOptions } from "@tanstack/react-query";
 import { z } from "zod";
 import { client, urlFor } from "./client";
 import { selectedWork, filmography } from "@/data/portfolio";
-import {
-  deduplicateMovies,
-  safeExternalUrl,
-  saveArchive,
-  type Archive,
-  type Movie,
-} from "@/lib/filmography";
+import { clientPosters } from "@/data/client-posters";
+import { safeExternalUrl, type Archive, type Movie } from "@/lib/filmography";
 
 const publicClient = client.withConfig({ timeout: 4500, maxRetries: 0 });
 const projection = `_id, title, slug, year, language, role, contributions, type, artwork,
@@ -107,10 +102,10 @@ export const sampleArchive: Archive = {
         role: credit.role,
         contributions: [],
         type: credit.type,
-        imageUrl: undefined,
+        imageUrl: clientPosters[credit.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")],
         featured: false,
         featuredOrder: 1000,
-      }))
+      })),
   ],
 };
 
@@ -119,8 +114,8 @@ export const moviesQueryOptions = queryOptions({
   staleTime: 60_000,
   gcTime: 30 * 60_000,
   retry: false,
-  queryFn: async ({ signal }): Promise<Archive> => {
-    // BYPASS SANITY: Instantly return the local massive movie list
+  queryFn: async (): Promise<Archive> => {
+    // Use the maintained local catalogue until the CMS archive is populated.
     return { ...sampleArchive, source: "live", updatedAt: Date.now() };
   },
 });
