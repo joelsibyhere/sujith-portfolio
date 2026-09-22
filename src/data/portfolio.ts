@@ -1,11 +1,11 @@
-import nayattu from "@/assets/nayattu.jpg";
-import thallumaala from "@/assets/thallumaala.jpg";
-import tagaru from "@/assets/tagaru.jpg";
-import salaga from "@/assets/salaga.jpg";
-import popcornMonkeyTigerImg from "@/assets/popcorn-monkey-tiger.jpg";
-import mysoreDiariesImg from "@/assets/mysore-diaries.jpg";
-import aeDilHaiMushkil from "@/assets/ae-dil-hai-mushkil.jpg";
-import vikramVedha from "@/assets/vikram-vedha.jpg";
+const nayattu = "/images/nayattu.jpg";
+const thallumaala = "/images/thallumaala.jpg";
+const tagaru = "/images/tagaru.jpg";
+const salaga = "/images/salaga.jpg";
+const popcornMonkeyTigerImg = "/images/popcorn-monkey-tiger.jpg";
+const mysoreDiariesImg = "/images/mysore-diaries.jpg";
+const aeDilHaiMushkil = "/images/ae-dil-hai-mushkil.jpg";
+const vikramVedha = "/images/vikram-vedha.jpg";
 import { contactEmail } from "@/lib/contact";
 
 /**
