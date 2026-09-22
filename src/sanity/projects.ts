@@ -68,6 +68,8 @@ function normalizeProject(value: unknown): Movie | undefined {
   };
 }
 
+import { posterGallery } from "@/data/poster-gallery";
+
 export const sampleArchive: Archive = {
   source: "sample",
   updatedAt: null,
@@ -102,9 +104,29 @@ export const sampleArchive: Archive = {
         role: credit.role,
         contributions: [],
         type: credit.type,
-        imageUrl: clientPosters[credit.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")],
+        imageUrl: undefined,
         featured: false,
         featuredOrder: 1000,
+      })),
+    // Finally, inject the 59 posters from the gallery that aren't already listed above!
+    ...posterGallery
+      .filter(
+        (poster) =>
+          !selectedWork.find((sw) => sw.title === poster.title) &&
+          !filmography.find((f) => f.title === poster.title)
+      )
+      .map((poster) => ({
+        _id: poster.id,
+        title: poster.title,
+        slug: { current: poster.projectSlug || poster.id },
+        year: new Date().getFullYear(), // Default since we don't have this data yet
+        language: "TBD",
+        role: "TBD",
+        contributions: [],
+        type: "Feature Film",
+        imageUrl: poster.thumbnail,
+        featured: false,
+        featuredOrder: 2000,
       })),
   ],
 };
