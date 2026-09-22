@@ -2,21 +2,33 @@ import { Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/Reveal";
 import { useMovies } from "@/sanity/useMovies";
 import { selectFeaturedMovies } from "@/lib/filmography";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 export function SelectedWork() {
   const { data: movies } = useMovies();
   const featured = selectFeaturedMovies(movies);
   
-  // We need enough movies to make the infinite scroll work smoothly.
-  // We'll create 3 separate rows with different sets of movies.
-  const row1 = [...featured, ...featured, ...featured].slice(0, 16);
-  const row2 = [...featured, ...featured, ...featured].slice(4, 20);
-  const row3 = [...featured, ...featured, ...featured].slice(8, 24);
+  // Build a massive, infinitely looping pool of movies so we never run out of posters 
+  // even if the database only has a few items currently.
+  let pool = [...featured];
+  if (pool.length > 0) {
+    while (pool.length < 64) {
+      pool = [...pool, ...featured];
+    }
+  }
+
+  // Safely slice 16 items for each row from our massive pool
+  const row1 = pool.slice(0, 16);
+  const row2 = pool.slice(4, 20);
+  const row3 = pool.slice(8, 24);
+  const row4 = pool.slice(12, 28);
+  const row5 = pool.slice(16, 32);
+  const row6 = pool.slice(20, 36);
 
   return (
     <section id="work" className="py-20 md:py-32 relative bg-background text-foreground border-t border-border overflow-hidden">
       
-      {/* Inline styles for the infinite marquee */}
       <style>
         {`
           @keyframes scrollLeft {
@@ -28,17 +40,19 @@ export function SelectedWork() {
             100% { transform: translateX(0); }
           }
           .animate-scroll-left {
-            animation: scrollLeft 60s linear infinite;
+            animation: scrollLeft 70s linear infinite;
           }
           .animate-scroll-right {
-            animation: scrollRight 60s linear infinite;
+            animation: scrollRight 70s linear infinite;
           }
-          /* Pause the entire wall when hovering over any poster (Desktop only) */
-          @media (hover: hover) and (pointer: fine) {
-            .pause-on-hover:hover .animate-scroll-left,
-            .pause-on-hover:hover .animate-scroll-right {
-              animation-play-state: paused;
-            }
+          @keyframes autoZoom {
+            0% { transform: scale(1.5); opacity: 0; }
+            5% { opacity: 1; }
+            95% { transform: scale(1.0); opacity: 1; }
+            100% { transform: scale(1.0); opacity: 0; }
+          }
+          .animate-auto-zoom {
+            animation: autoZoom 12s cubic-bezier(0.25, 1, 0.5, 1) infinite;
           }
         `}
       </style>
@@ -50,50 +64,49 @@ export function SelectedWork() {
         </Reveal>
       </div>
 
-      {/* The Scrolling "Fisheye" Grid Wall */}
-      <div 
-        className="w-full relative pause-on-hover cursor-pointer"
-        style={{
-          WebkitMaskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 90%)",
-          maskImage: "radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 90%)"
-        }}
-      >
-        <div className="flex flex-col gap-2 md:gap-3 py-10 md:py-20 w-full overflow-hidden perspective-[1000px]">
+      {/* The Scrolling Grid Wall */}
+      <div className="w-full relative cursor-pointer overflow-hidden flex justify-center bg-black">
+        
+        {/* Top & Bottom Curved Masks */}
+        <div className="absolute top-[-5%] left-[-10%] w-[120%] h-[10%] bg-background rounded-[100%] z-20 shadow-[0_20px_50px_rgba(0,0,0,0.9)] pointer-events-none"></div>
+        <div className="absolute bottom-[-5%] left-[-10%] w-[120%] h-[10%] bg-background rounded-[100%] z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.9)] pointer-events-none"></div>
+
+        <div className="flex flex-col gap-1 md:gap-2 w-[150vw] ml-[-25vw] md:w-[110vw] md:ml-[-5vw] bg-black py-12 md:py-16 animate-auto-zoom">
           
-          {/* Row 1 - Scrolls Left */}
-          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-2 md:gap-3">
-            {row1.map((movie, index) => (
-              <MarqueeItem key={`r1-${movie._id}-${index}`} movie={movie} />
-            ))}
-            {row1.map((movie, index) => (
-              <MarqueeItem key={`r1-dup-${movie._id}-${index}`} movie={movie} />
-            ))}
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-1 md:gap-2">
+            {row1.map((movie, index) => <MarqueeItem key={`r1-${index}`} movie={movie} />)}
+            {row1.map((movie, index) => <MarqueeItem key={`r1-dup-${index}`} movie={movie} />)}
           </div>
 
-          {/* Row 2 - Scrolls Right */}
-          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-right gap-2 md:gap-3 ml-[-10vw]">
-            {row2.map((movie, index) => (
-              <MarqueeItem key={`r2-${movie._id}-${index}`} movie={movie} />
-            ))}
-            {row2.map((movie, index) => (
-              <MarqueeItem key={`r2-dup-${movie._id}-${index}`} movie={movie} />
-            ))}
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-right gap-1 md:gap-2 ml-[-15vw]">
+            {row2.map((movie, index) => <MarqueeItem key={`r2-${index}`} movie={movie} />)}
+            {row2.map((movie, index) => <MarqueeItem key={`r2-dup-${index}`} movie={movie} />)}
           </div>
 
-          {/* Row 3 - Scrolls Left */}
-          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-2 md:gap-3 ml-[-5vw]">
-            {row3.map((movie, index) => (
-              <MarqueeItem key={`r3-${movie._id}-${index}`} movie={movie} />
-            ))}
-            {row3.map((movie, index) => (
-              <MarqueeItem key={`r3-dup-${movie._id}-${index}`} movie={movie} />
-            ))}
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-1 md:gap-2 ml-[-5vw]">
+            {row3.map((movie, index) => <MarqueeItem key={`r3-${index}`} movie={movie} />)}
+            {row3.map((movie, index) => <MarqueeItem key={`r3-dup-${index}`} movie={movie} />)}
+          </div>
+
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-right gap-1 md:gap-2 ml-[-20vw]">
+            {row4.map((movie, index) => <MarqueeItem key={`r4-${index}`} movie={movie} />)}
+            {row4.map((movie, index) => <MarqueeItem key={`r4-dup-${index}`} movie={movie} />)}
+          </div>
+
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-left gap-1 md:gap-2 ml-[-10vw]">
+            {row5.map((movie, index) => <MarqueeItem key={`r5-${index}`} movie={movie} />)}
+            {row5.map((movie, index) => <MarqueeItem key={`r5-dup-${index}`} movie={movie} />)}
+          </div>
+
+          <div className="flex w-[200vw] md:w-[150vw] animate-scroll-right gap-1 md:gap-2 ml-[-8vw]">
+            {row6.map((movie, index) => <MarqueeItem key={`r6-${index}`} movie={movie} />)}
+            {row6.map((movie, index) => <MarqueeItem key={`r6-dup-${index}`} movie={movie} />)}
           </div>
 
         </div>
       </div>
 
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-12">
         <Link 
           to="/filmography" 
           className="px-8 py-3 border border-border hover:border-foreground transition-colors text-[10px] uppercase tracking-widest font-bold bg-background/50 backdrop-blur-sm z-10"
@@ -108,24 +121,21 @@ export function SelectedWork() {
 
 function MarqueeItem({ movie }: { movie: any }) {
   return (
-    <div className="flex-none w-[120px] sm:w-[150px] md:w-[180px] lg:w-[220px] aspect-square relative group overflow-hidden bg-card/20 rounded-sm">
+    <div className="flex-none w-[90px] sm:w-[110px] md:w-[140px] lg:w-[170px] aspect-square relative group overflow-hidden bg-card/20 rounded-sm">
       <Link
         to="/work/$slug"
         params={{ slug: movie.slug.current }}
         className="w-full h-full block"
       >
-        {movie.imageUrl && (
+        {movie.imageUrl ? (
           <img 
             src={movie.imageUrl} 
             alt={movie.title}
-            className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
+            className="w-full h-full object-cover saturate-50 opacity-80 group-hover:saturate-100 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
           />
+        ) : (
+          <div className="w-full h-full bg-card flex items-center justify-center"></div>
         )}
-        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4 text-center">
-          <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-white drop-shadow-md">
-            {movie.title}
-          </span>
-        </div>
       </Link>
     </div>
   );
