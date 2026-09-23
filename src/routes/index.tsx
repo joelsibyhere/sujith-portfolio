@@ -19,13 +19,10 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-import { Services } from "@/components/sections/Services";
-
 function Index() {
   return (
     <>
       <Hero />
-      <Services />
       <SelectedWork />
       <ListenTeaser />
       <MinimalConnect />
