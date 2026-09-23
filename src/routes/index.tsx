@@ -43,7 +43,7 @@ function MinimalConnect() {
           </h2>
         </div>
         <Magnetic>
-          <Link to="/connect" className="button-primary block">
+          <Link to="/connect" className="button-primary">
             Start a project <ArrowUpRight size={16} aria-hidden="true" />
           </Link>
         </Magnetic>
