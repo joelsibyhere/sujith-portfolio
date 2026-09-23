@@ -30,6 +30,8 @@ function Index() {
   );
 }
 
+import { Magnetic } from "@/components/Magnetic";
+
 function MinimalConnect() {
   return (
     <section className="border-y border-border bg-card py-16 md:py-20">
@@ -40,9 +42,11 @@ function MinimalConnect() {
             Work with Sujith<span className="text-primary">.</span>
           </h2>
         </div>
-        <Link to="/connect" className="button-primary">
-          Start a project <ArrowUpRight size={16} aria-hidden="true" />
-        </Link>
+        <Magnetic>
+          <Link to="/connect" className="button-primary block">
+            Start a project <ArrowUpRight size={16} aria-hidden="true" />
+          </Link>
+        </Magnetic>
       </Reveal>
     </section>
   );
